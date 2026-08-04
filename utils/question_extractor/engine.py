@@ -15,7 +15,8 @@ from .content_builder import Section, build_section, render_and_assign_assets
 from .folder_scanner import PdfJob, output_directory, scan_pdfs
 from .json_writer import write_paper
 from .label_normalizer import alphabetic_label
-from .models import Option, Paper, Question
+from .metadata_detector import extract_paper_code, extract_total_time_minutes
+from .models import Option, Paper, PaperMetadata, Question
 from .ocr_processor import ocr_page
 from .option_detector import split_options
 from .pdf_reader import TextLine, extract_page, has_usable_text, open_pdf
@@ -29,9 +30,12 @@ IMAGE_CHOICE_PROMPT = re.compile(
 )
 
 
-def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[AssetRegion], list[str], object]:
+def _collect_lines_and_regions(
+    pdf_path: Path,
+) -> tuple[list[TextLine], list[AssetRegion], list[str], object, list[TextLine]]:
     document = open_pdf(pdf_path)
     lines: list[TextLine] = []
+    metadata_lines: list[TextLine] = []
     regions: list[AssetRegion] = []
     warnings: list[str] = []
     for page_number, page in enumerate(document, start=1):
@@ -50,6 +54,7 @@ def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[Ass
                 page_lines = data.lines
         else:
             page_lines = data.lines
+        metadata_lines.extend(page_lines)
         lines.extend(
             line for line in page_lines
             if line.rect.y0 >= data.height * 0.04 and line.rect.y1 <= data.height * 0.95
@@ -60,7 +65,8 @@ def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[Ass
             region for region in find_asset_regions(page, page_number)
             if region.rect.y1 > data.height * 0.12 and region.rect.y0 < data.height * 0.95
         )
-    return lines, regions, warnings, document
+    # Metadata is often printed in a header, which question extraction drops.
+    return lines, regions, warnings, document, metadata_lines
 
 
 def convert_pdf(job: PdfJob, output_root: Path) -> Path:
@@ -72,7 +78,7 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
     assets_dir.mkdir(parents=True, exist_ok=True)
     for stale_asset in assets_dir.glob("*.png"):
         stale_asset.unlink()
-    lines, all_regions, paper_warnings, document = _collect_lines_and_regions(job.pdf_path)
+    lines, all_regions, paper_warnings, document, metadata_lines = _collect_lines_and_regions(job.pdf_path)
     try:
         questions: list[Question] = []
         grouped = split_question_lines(lines)
@@ -145,7 +151,16 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
             questions.append(question)
         if not grouped:
             LOG.warning("%s: no question starts detected", job.pdf_path)
-        paper = Paper(subject=job.subject, semester=job.semester, source_pdf=job.pdf_path.name, questions=questions)
+        paper = Paper(
+            subject=job.subject,
+            semester=job.semester,
+            source_pdf=job.pdf_path.name,
+            metadata=PaperMetadata(
+                paper_code=extract_paper_code(metadata_lines),
+                total_time_minutes=extract_total_time_minutes(metadata_lines),
+            ),
+            questions=questions,
+        )
         write_paper(paper, json_path)
         return json_path
     finally:
