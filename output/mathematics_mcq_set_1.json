@@ -1,0 +1,98 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "mathematics_mcq_set_1.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "What is the value of √81?",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "7"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "8"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "9"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "10"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "mathematics_mcq_set_1_assets/question_2_diagram_1.png"
+      ],
+      "number": 2,
+      "page_number": 1,
+      "content": "Solve the following quadratic equation:",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "x = 2, 3"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "x = 1, 6"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "x = -2, -3"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "No real roots"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "mathematics_mcq_set_1_assets/question_3_graphic_1.png"
+      ],
+      "number": 3,
+      "page_number": 1,
+      "content": "Evaluate the expression shown below.",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "6"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "8"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "10"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "12"
+        }
+      ],
+      "answer": null
+    }
+  ]
+}

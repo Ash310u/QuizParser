@@ -1,0 +1,206 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "physics_mathematics_symbol_mcqs.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "A wave has frequency f = 50 Hz and wavelength λ = 2 m. What is its speed?",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "25 m/s"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "52 m/s"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "100 m/s"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "2500 m/s"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "physics_mathematics_symbol_mcqs_assets/question_2_image_1.png"
+      ],
+      "number": 2,
+      "page_number": 1,
+      "content": "Which equation represents mass-energy equivalence?",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "F = ma"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "p = mv"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "E = mc²"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "V = IR"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "physics_mathematics_symbol_mcqs_assets/question_3_image_1.png"
+      ],
+      "number": 3,
+      "page_number": 1,
+      "content": "The displacement of an object is given by the following relation. Select the correct formula. The object starts with initial velocity u and acceleration a.",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "velocity equation (image-based option)"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "displacement equation (image-based option)"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 4,
+      "page_number": 1,
+      "content": "Which quantity is a vector?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Temperature"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Mass"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Force"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Time"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "physics_mathematics_symbol_mcqs_assets/question_5_image_1.png"
+      ],
+      "number": 5,
+      "page_number": 2,
+      "content": "Refer to the diagram. Which force acts vertically downward on the block?",
+      "options": [
+        {
+          "path": [],
+          "label": "I",
+          "content": "Applied force F"
+        },
+        {
+          "path": [],
+          "label": "II",
+          "content": "Normal force N"
+        },
+        {
+          "path": [],
+          "label": "III",
+          "content": "Weight mg"
+        },
+        {
+          "path": [],
+          "label": "IV",
+          "content": "No force acts downward"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 6,
+      "page_number": 2,
+      "content": "Evaluate: ∫₀² x dx",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "1"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "2"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "3"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "4"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 7,
+      "page_number": 2,
+      "content": "Which symbol denotes angular frequency?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "ω"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "α"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "θ"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Δ"
+        }
+      ],
+      "answer": null
+    }
+  ]
+}
