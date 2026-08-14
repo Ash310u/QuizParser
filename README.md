@@ -51,4 +51,6 @@ Each question stores compact data rather than a mixed block array:
 
 `path` always contains relative PNG paths. `answer` is `null` unless the source PDF includes an answer key.
 
+Option labels are detected when present (`A`, `B`, `i`, `ii`, `1`, `2`, etc.). For label-free source material, the converter also recognizes bullet lists, comma- or semicolon-separated rows, and clearly separated option lines. Those inferred choices receive stable numeric labels (`"1"`, `"2"`, ...). A completely unlabelled image grid is likewise numbered when its prompt explicitly asks the reader to choose an image, diagram, figure, symbol, shape, or option.
+
 The extractor uses PDF text coordinates first, then OCR only for scanned/unusable pages. Embedded images and substantial vector graphic regions are rendered to PNG and placed in a sibling `<paper>_assets/` folder. Ambiguous extraction is retained and called out in each question's `warnings` field.

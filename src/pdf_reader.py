@@ -38,7 +38,20 @@ def extract_page(page: fitz.Page, page_number: int) -> PageData:
             min(word[0] for word in line_words), min(word[1] for word in line_words),
             max(word[2] for word in line_words), max(word[3] for word in line_words),
         )
-        text = " ".join(str(word[4]) for word in line_words).strip()
+        text_parts: list[str] = []
+        previous = None
+        for word in line_words:
+            if previous is not None:
+                gap = word[0] - previous[2]
+                # Retain deliberately wide visual gaps as tabs. They often
+                # indicate unlabeled choices placed in one horizontal row.
+                if gap >= max(12, (previous[2] - previous[0]) / max(len(str(previous[4])), 1) * 2.3):
+                    text_parts.append("\t")
+                else:
+                    text_parts.append(" ")
+            text_parts.append(str(word[4]))
+            previous = word
+        text = "".join(text_parts).strip()
         if text:
             lines.append(TextLine(page_number, text, rect))
     return PageData(page_number, page, lines, page.rect.width, page.rect.height)

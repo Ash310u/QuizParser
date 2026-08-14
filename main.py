@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -20,6 +21,10 @@ from src.validator import validate_question
 from src.json_writer import write_paper
 
 LOG = logging.getLogger("pdf_mcq_converter")
+IMAGE_CHOICE_PROMPT = re.compile(
+    r"\b(?:which|choose|select|identify|pick)\b.*\b(?:image|diagram|figure|symbol|shape|option)\b",
+    re.IGNORECASE,
+)
 
 
 def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[AssetRegion], list[str], object]:
@@ -45,7 +50,7 @@ def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[Ass
             page_lines = data.lines
         lines.extend(
             line for line in page_lines
-            if line.rect.y0 >= data.height * 0.10 and line.rect.y1 <= data.height * 0.95
+            if line.rect.y0 >= data.height * 0.04 and line.rect.y1 <= data.height * 0.95
         )
         # Decorative headers and footers frequently contain lines, rectangles,
         # and logos that are not part of a question.
@@ -87,10 +92,20 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
                 LOG.warning("%s: visual region on page %s could not be associated with a question", job.pdf_path, region.page_number)
         for index, (number, page_number, question_lines) in enumerate(grouped):
             stem_lines, option_groups = split_options(question_lines)
+            question_regions = regions_by_question[index]
+            # When no textual labels or choices exist, a prompt that explicitly
+            # asks the reader to choose a visual item can still be represented
+            # as numbered options. Each detected visual region becomes one
+            # choice; ordinary question diagrams are not guessed as options.
+            prompt = " ".join(line.text for line in stem_lines)
+            if not option_groups and len(question_regions) >= 2 and IMAGE_CHOICE_PROMPT.search(prompt):
+                option_groups = [
+                    (str(position), [TextLine(region.page_number, "", region.rect, "asset")])
+                    for position, region in enumerate(sorted(question_regions, key=lambda item: (item.page_number, item.rect.y0, item.rect.x0)), start=1)
+                ]
             stem = Section("question", None, stem_lines)
             option_sections = [Section("option", label, option_lines) for label, option_lines in option_groups]
             sections = [stem, *option_sections]
-            question_regions = regions_by_question[index]
             assignments = render_and_assign_assets(document, question_regions, sections, assets_dir, assets_relative_dir, number)
             options = []
             for section in option_sections:

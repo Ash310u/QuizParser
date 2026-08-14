@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import re
 
 import fitz
 
@@ -46,8 +47,25 @@ def _nearest_section(region: AssetRegion, sections: list[Section]) -> Section | 
     option_candidates = [section for section in candidates if section.option_label and section.label_bounds]
     if option_candidates:
         first_option_y = min(section.label_bounds.y0 for section in option_candidates if section.label_bounds)
-        if region.rect.y0 >= first_option_y:
-            candidates = option_candidates
+        if region.rect.y0 < first_option_y:
+            # A diagram/equation placed before the answer labels is part of
+            # the question, not the horizontally nearest future option.
+            question_candidates = [section for section in candidates if not section.option_label]
+            if question_candidates:
+                candidates = question_candidates
+        else:
+            # Option images belong to the latest label row above them. This
+            # prevents a top-row image from being pulled down to an option
+            # label in a lower row of a grid.
+            preceding = [section for section in option_candidates if section.label_bounds and section.label_bounds.y0 <= region.rect.y0]
+            if preceding:
+                latest_y = max(section.label_bounds.y0 for section in preceding if section.label_bounds)
+                candidates = [
+                    section for section in preceding
+                    if section.label_bounds and abs(section.label_bounds.y0 - latest_y) <= 24
+                ]
+            else:
+                candidates = option_candidates
 
     def distance(section: Section) -> float:
         bounds = section.label_bounds if section.option_label else section.bounds
@@ -70,7 +88,7 @@ def build_section(section: Section, assigned_assets: list[tuple[AssetRegion, str
         if line.text and not any(region.rect.contains(line.rect) for region in asset_regions):
             text_parts.append(line.text)
     paths = [path for _, path in sorted(assigned_assets, key=lambda item: (item[0].rect.y0, item[0].rect.x0))]
-    return " ".join(text_parts), paths
+    return re.sub(r"\s+", " ", " ".join(text_parts)).strip(), paths
 
 
 def render_and_assign_assets(
