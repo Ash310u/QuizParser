@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 import re
 
-import fitz
+import pymupdf as fitz
 
 from .asset_extractor import AssetRegion, save_crop
 from .pdf_reader import TextLine

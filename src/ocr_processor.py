@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import io
 
-import fitz
+import pymupdf as fitz
 from PIL import Image
 
 from .pdf_reader import TextLine

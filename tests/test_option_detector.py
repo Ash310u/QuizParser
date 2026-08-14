@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-import fitz
+import pymupdf as fitz
 
 from src.option_detector import split_options
 from src.pdf_reader import TextLine
