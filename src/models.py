@@ -1,37 +1,30 @@
-"""Pydantic models for the JSON written by the converter."""
+"""Pydantic models for the compact JSON written by the converter."""
 
 from __future__ import annotations
 
 from pathlib import PurePosixPath
-from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
 
 
-class TextBlock(BaseModel):
-    type: Literal["text"] = "text"
-    value: str = Field(min_length=1)
+class PathContainer(BaseModel):
+    """Common relative asset-path validation for questions and options."""
 
-
-class ImageBlock(BaseModel):
-    type: Literal["image"] = "image"
-    path: str = Field(min_length=1)
+    path: list[str] = Field(default_factory=list)
 
     @field_validator("path")
     @classmethod
-    def relative_png_path(cls, value: str) -> str:
-        path = PurePosixPath(value)
-        if path.is_absolute() or ".." in path.parts or path.suffix.lower() != ".png":
-            raise ValueError("image paths must be relative PNG paths")
-        return value
+    def relative_png_paths(cls, values: list[str]) -> list[str]:
+        for value in values:
+            path = PurePosixPath(value)
+            if path.is_absolute() or ".." in path.parts or path.suffix.lower() != ".png":
+                raise ValueError("image paths must be relative PNG paths")
+        return values
 
 
-ContentBlock = TextBlock | ImageBlock
-
-
-class Option(BaseModel):
+class Option(PathContainer):
     label: str = Field(min_length=1, max_length=12)
-    content: list[ContentBlock] = Field(default_factory=list)
+    content: str = ""
 
     @field_validator("label")
     @classmethod
@@ -39,12 +32,12 @@ class Option(BaseModel):
         return value.strip().upper()
 
 
-class Question(BaseModel):
+class Question(PathContainer):
     number: int = Field(ge=1)
     page_number: int = Field(ge=1)
-    content: list[ContentBlock] = Field(default_factory=list)
+    content: str = ""
     options: list[Option] = Field(default_factory=list)
-    warnings: list[str] = Field(default_factory=list)
+    answer: str | None = None
 
 
 class Paper(BaseModel):

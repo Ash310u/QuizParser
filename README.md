@@ -34,4 +34,21 @@ input/
 
 Each file becomes `output/<pdf-name>.json` plus `output/<pdf-name>_assets/`. The `subject` and `semester` fields remain in the JSON schema with the value `"unspecified"`; the simple input folder provides no reliable metadata for them. Subfolders are intentionally ignored.
 
+Each question stores compact data rather than a mixed block array:
+
+```json
+{
+  "number": 2,
+  "page_number": 1,
+  "content": "Identify the correct flowchart symbol for a decision.",
+  "path": [],
+  "options": [
+    {"label": "A", "content": "", "path": ["paper_assets/question_2_option_a_1.png"]}
+  ],
+  "answer": null
+}
+```
+
+`path` always contains relative PNG paths. `answer` is `null` unless the source PDF includes an answer key.
+
 The extractor uses PDF text coordinates first, then OCR only for scanned/unusable pages. Embedded images and substantial vector graphic regions are rendered to PNG and placed in a sibling `<paper>_assets/` folder. Ambiguous extraction is retained and called out in each question's `warnings` field.
