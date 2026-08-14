@@ -1,0 +1,37 @@
+# PDF MCQ to JSON converter
+
+Batch-convert multiple-choice-question PDFs placed directly in `input/` into JSON and image assets in `output/`.
+The converter does not require subject or semester folders and never embeds absolute paths in JSON.
+
+## Install
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Tesseract must also be installed and available as `tesseract` on your `PATH`. It is only used for pages without usable selectable PDF text.
+
+## Run
+
+```bash
+python main.py
+```
+
+By default this reads `input/` and writes `output/`. Custom roots are also supported:
+
+```bash
+python main.py --input /path/to/input --output /path/to/output
+```
+
+Put every PDF directly in `input/`:
+
+```text
+input/
+├── paper_2024.pdf
+├── paper_2025.pdf
+└── practice_test.pdf
+```
+
+Each file becomes `output/<pdf-name>.json` plus `output/<pdf-name>_assets/`. The `subject` and `semester` fields remain in the JSON schema with the value `"unspecified"`; the simple input folder provides no reliable metadata for them. Subfolders are intentionally ignored.
+
+The extractor uses PDF text coordinates first, then OCR only for scanned/unusable pages. Embedded images and substantial vector graphic regions are rendered to PNG and placed in a sibling `<paper>_assets/` folder. Ambiguous extraction is retained and called out in each question's `warnings` field.
