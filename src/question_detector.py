@@ -29,18 +29,22 @@ def split_question_lines(lines: list[TextLine]) -> list[tuple[int, int, list[Tex
     groups: list[tuple[int, int, list[TextLine]]] = []
     current_number: int | None = None
     current_page: int | None = None
+    current_question_x: float | None = None
     current_lines: list[TextLine] = []
     for line in lines:
         start = parse_question_start(line.text)
         # Bare numeric labels such as `1)` can be answer options. Once a
         # question is open, promote those only when they continue numbering.
         is_new_question = start is not None and (
-            current_number is None or start[2] or start[0] == current_number + 1
+            current_number is None
+            or start[2]
+            or (start[0] == current_number + 1 and (current_question_x is None or line.rect.x0 <= current_question_x + 3))
         )
         if is_new_question and start:
             if current_number is not None:
                 groups.append((current_number, current_page or line.page_number, current_lines))
             current_number, current_page = start[0], line.page_number
+            current_question_x = line.rect.x0
             # Retain an empty marker line for its coordinates. A question can
             # begin with an image/equation immediately after `2.`.
             current_lines = [TextLine(line.page_number, start[1], line.rect, line.source)]

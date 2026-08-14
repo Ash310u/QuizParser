@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import argparse
 import logging
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
 
 from src.asset_extractor import AssetRegion, find_asset_regions
-from src.content_builder import Section, build_content, render_and_assign_assets
+from src.content_builder import Section, build_section, render_and_assign_assets
 from src.folder_scanner import PdfJob, output_directory, scan_pdfs
 from src.models import Option, Paper, Question
 from src.ocr_processor import ocr_page
@@ -20,6 +21,10 @@ from src.validator import validate_question
 from src.json_writer import write_paper
 
 LOG = logging.getLogger("pdf_mcq_converter")
+IMAGE_CHOICE_PROMPT = re.compile(
+    r"\b(?:which|choose|select|identify|pick)\b.*\b(?:image|diagram|figure|symbol|shape|option)\b",
+    re.IGNORECASE,
+)
 
 
 def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[AssetRegion], list[str], object]:
@@ -29,6 +34,7 @@ def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[Ass
     warnings: list[str] = []
     for page_number, page in enumerate(document, start=1):
         data = extract_page(page, page_number)
+        page_lines: list[TextLine]
         if not has_usable_text(data):
             try:
                 ocr_lines = ocr_page(page, page_number)
@@ -36,13 +42,22 @@ def _collect_lines_and_regions(pdf_path: Path) -> tuple[list[TextLine], list[Ass
                 warnings.append(f"Page {page_number}: {exc}")
                 ocr_lines = []
             if ocr_lines:
-                lines.extend(ocr_lines)
+                page_lines = ocr_lines
                 warnings.append(f"Page {page_number}: used OCR because digital text was not usable.")
             else:
-                lines.extend(data.lines)
+                page_lines = data.lines
         else:
-            lines.extend(data.lines)
-        regions.extend(find_asset_regions(page, page_number))
+            page_lines = data.lines
+        lines.extend(
+            line for line in page_lines
+            if line.rect.y0 >= data.height * 0.04 and line.rect.y1 <= data.height * 0.95
+        )
+        # Decorative headers and footers frequently contain lines, rectangles,
+        # and logos that are not part of a question.
+        regions.extend(
+            region for region in find_asset_regions(page, page_number)
+            if region.rect.y1 > data.height * 0.12 and region.rect.y0 < data.height * 0.95
+        )
     return lines, regions, warnings, document
 
 
@@ -53,6 +68,8 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
     assets_relative_dir = Path(f"{job.pdf_path.stem}_assets")
     # Each PDF owns an asset directory, even if every question is text-only.
     assets_dir.mkdir(parents=True, exist_ok=True)
+    for stale_asset in assets_dir.glob("*.png"):
+        stale_asset.unlink()
     lines, all_regions, paper_warnings, document = _collect_lines_and_regions(job.pdf_path)
     try:
         questions: list[Question] = []
@@ -75,17 +92,30 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
                 LOG.warning("%s: visual region on page %s could not be associated with a question", job.pdf_path, region.page_number)
         for index, (number, page_number, question_lines) in enumerate(grouped):
             stem_lines, option_groups = split_options(question_lines)
+            question_regions = regions_by_question[index]
+            # When no textual labels or choices exist, a prompt that explicitly
+            # asks the reader to choose a visual item can still be represented
+            # as numbered options. Each detected visual region becomes one
+            # choice; ordinary question diagrams are not guessed as options.
+            prompt = " ".join(line.text for line in stem_lines)
+            if not option_groups and len(question_regions) >= 2 and IMAGE_CHOICE_PROMPT.search(prompt):
+                option_groups = [
+                    (str(position), [TextLine(region.page_number, "", region.rect, "asset")])
+                    for position, region in enumerate(sorted(question_regions, key=lambda item: (item.page_number, item.rect.y0, item.rect.x0)), start=1)
+                ]
             stem = Section("question", None, stem_lines)
             option_sections = [Section("option", label, option_lines) for label, option_lines in option_groups]
             sections = [stem, *option_sections]
-            question_regions = regions_by_question[index]
             assignments = render_and_assign_assets(document, question_regions, sections, assets_dir, assets_relative_dir, number)
-            options = [
-                Option(label=section.option_label or "?", content=build_content(section, assignments[id(section)]))
-                for section in option_sections
-            ]
-            question = Question(number=number, page_number=page_number, content=build_content(stem, assignments[id(stem)]), options=options, warnings=list(paper_warnings))
-            questions.append(validate_question(question, destination_dir))
+            options = []
+            for section in option_sections:
+                content, paths = build_section(section, assignments[id(section)])
+                options.append(Option(label=section.option_label or "?", content=content, path=paths))
+            content, paths = build_section(stem, assignments[id(stem)])
+            question = Question(number=number, page_number=page_number, content=content, path=paths, options=options)
+            for warning in [*paper_warnings, *validate_question(question, destination_dir)]:
+                LOG.warning("%s, question %s: %s", job.pdf_path.name, number, warning)
+            questions.append(question)
         if not grouped:
             LOG.warning("%s: no question starts detected", job.pdf_path)
         paper = Paper(subject=job.subject, semester=job.semester, source_pdf=job.pdf_path.name, questions=questions)
