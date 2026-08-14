@@ -1,0 +1,187 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "mcq_edge_case_option_layouts.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "Which activity belongs to the testing phase?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Writing unit tests"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Creating UI mockups"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Gathering requirements"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Deploying to production"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "mcq_edge_case_option_layouts_assets/question_2_diagram_1.png"
+      ],
+      "number": 2,
+      "page_number": 1,
+      "content": "Which pair is an example of black-box testing techniques?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Each option is a phrase"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "individual choices inside it use a slash."
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "mcq_edge_case_option_layouts_assets/question_3_diagram_1.png"
+      ],
+      "number": 3,
+      "page_number": 1,
+      "content": "Select the correct meaning of the following abbreviations. Four unlabeled options are placed inside table cells.",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Table cells"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "checkboxes"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "slashes"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "columns and statement combinations"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 4,
+      "page_number": 2,
+      "content": "Consider the following statements about Agile development.",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Statement I: Agile welcomes changing requirements."
+        },
+        {
+          "path": [
+            "mcq_edge_case_option_layouts_assets/question_4_option_2_1.png"
+          ],
+          "label": "2",
+          "content": "Statement II: Agile releases working software only once at the end."
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Both I and II are true"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Both I and II are false"
+        },
+        {
+          "path": [],
+          "label": "5",
+          "content": "I is true but II is false"
+        },
+        {
+          "path": [],
+          "label": "6",
+          "content": "I is false but II is true"
+        },
+        {
+          "path": [],
+          "label": "7",
+          "content": "Statement-combination choices have no labels and may resemble normal text."
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 5,
+      "page_number": 2,
+      "content": "Find the correct sequence for handling a bug report.",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Report → Triage → Fix → Verify"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Fix → Report → Verify → Triage"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Triage → Verify → Report → Fix"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Verify → Fix → Triage → Report"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 6,
+      "page_number": 2,
+      "content": "Pick one of the following: None / One / Many / All",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "The possible answers are inline"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "separated only by slashes"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "and do not have option labels."
+        }
+      ],
+      "answer": null
+    }
+  ]
+}

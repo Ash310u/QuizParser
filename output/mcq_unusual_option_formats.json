@@ -1,0 +1,212 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "mcq_unusual_option_formats.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "Which testing level verifies individual functions?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Unit testing"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Integration testing"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "System testing"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Acceptance testing"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 2,
+      "page_number": 1,
+      "content": "Which of these are software process models?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Waterfall"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Spiral"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Incremental"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "V-Model"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 3,
+      "page_number": 1,
+      "content": "What does UML stand for?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Unified Modeling Language"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Universal Machine Logic"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "User Model Layer"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Unified Method Link"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [
+        "mcq_unusual_option_formats_assets/question_4_diagram_1.png"
+      ],
+      "number": 4,
+      "page_number": 1,
+      "content": "Select the activity that happens before coding in a normal SDLC flow.",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Requirements analysis"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Design"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Testing"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Maintenance"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 5,
+      "page_number": 2,
+      "content": "Which diagram shows interaction between objects over time?",
+      "options": [
+        {
+          "path": [],
+          "label": "I",
+          "content": "Class diagram"
+        },
+        {
+          "path": [],
+          "label": "II",
+          "content": "Sequence diagram"
+        },
+        {
+          "path": [],
+          "label": "III",
+          "content": "Use case diagram"
+        },
+        {
+          "path": [],
+          "label": "IV",
+          "content": "Activity diagram"
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 6,
+      "page_number": 2,
+      "content": "Which item is NOT a valid software requirement? Choose one.",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "The application must let students submit answers."
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "The system should be fast."
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "A developer must drink coffee."
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "The system must keep an audit log."
+        }
+      ],
+      "answer": null
+    },
+    {
+      "path": [],
+      "number": 7,
+      "page_number": 2,
+      "content": "Identify the correct order of the following phases.",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Analysis → Design → Implementation → Testing"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Design → Testing → Analysis → Implementation"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Implementation → Analysis → Testing → Design"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Testing → Analysis → Design → Implementation"
+        }
+      ],
+      "answer": null
+    }
+  ]
+}
