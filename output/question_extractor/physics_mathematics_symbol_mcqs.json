@@ -30,7 +30,8 @@
           "content": "2500 m/s"
         }
       ],
-      "answer": null
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -61,7 +62,8 @@
           "content": "V = IR"
         }
       ],
-      "answer": null
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -82,7 +84,8 @@
           "content": "displacement equation (image-based option)"
         }
       ],
-      "answer": null
+      "answer": [],
+      "confidence_score": 0.49
     },
     {
       "path": [],
@@ -92,26 +95,27 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Temperature"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Mass"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Force"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Time"
         }
       ],
-      "answer": null
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -123,26 +127,27 @@
       "options": [
         {
           "path": [],
-          "label": "I",
+          "label": "A",
           "content": "Applied force F"
         },
         {
           "path": [],
-          "label": "II",
+          "label": "B",
           "content": "Normal force N"
         },
         {
           "path": [],
-          "label": "III",
+          "label": "C",
           "content": "Weight mg"
         },
         {
           "path": [],
-          "label": "IV",
+          "label": "D",
           "content": "No force acts downward"
         }
       ],
-      "answer": null
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -152,26 +157,27 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "1"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "2"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "3"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "4"
         }
       ],
-      "answer": null
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -181,26 +187,27 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "ω"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "α"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "θ"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Δ"
         }
       ],
-      "answer": null
+      "answer": [],
+      "confidence_score": 1.0
     }
   ]
 }

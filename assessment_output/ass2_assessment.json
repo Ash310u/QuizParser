@@ -1,0 +1,450 @@
+{
+  "schema_version": "1.0",
+  "source_pdf": "ass2.pdf",
+  "document_metadata": {
+    "format": "PDF 1.4",
+    "title": "(anonymous)",
+    "author": "(anonymous)",
+    "subject": "(unspecified)",
+    "creator": "(unspecified)",
+    "producer": "ReportLab PDF Library - (opensource)",
+    "creationDate": "D:20260815160409+00'00'",
+    "modDate": "D:20260815160409+00'00'"
+  },
+  "table_of_contents": [],
+  "assessment": {
+    "title": "Assignment Sample",
+    "metadata": {
+      "course": "B.Tech",
+      "stream": "Computer Science",
+      "subject": "Database Management Systems"
+    },
+    "sections": [
+      {
+        "title": "Unsectioned content",
+        "identifier": null,
+        "page_number": 1,
+        "metadata": {},
+        "questions": []
+      },
+      {
+        "title": "Unit 1",
+        "identifier": "1",
+        "page_number": 1,
+        "metadata": {
+          "topics": "Introduction to DBMS; ER Models; Relational Models; Database Keys"
+        },
+        "questions": [
+          {
+            "number": 1,
+            "page_number": 1,
+            "content": "Define a DBMS and explain two advantages of using it.",
+            "marks": 2.0,
+            "learning_level": "L1",
+            "bbox": [
+              78.0,
+              185.25,
+              401.4898986816406,
+              198.99000549316406
+            ],
+            "source_lines": [
+              "Q1. Define a DBMS and explain two advantages of using it. [2 Marks, L1]"
+            ]
+          },
+          {
+            "number": 2,
+            "page_number": 1,
+            "content": "Explain the difference between a primary key and a foreign key with examples.",
+            "marks": 3.0,
+            "learning_level": "L2",
+            "bbox": [
+              78.0,
+              197.25,
+              505.4098815917969,
+              210.99000549316406
+            ],
+            "source_lines": [
+              "Q2. Explain the difference between a primary key and a foreign key with examples. [3 Marks, L2]"
+            ]
+          },
+          {
+            "number": 3,
+            "page_number": 1,
+            "content": "Draw an ER diagram for a library management system.",
+            "marks": 5.0,
+            "learning_level": "L3",
+            "bbox": [
+              78.0,
+              209.25,
+              401.4399108886719,
+              222.99000549316406
+            ],
+            "source_lines": [
+              "Q3. Draw an ER diagram for a library management system. [5 Marks, L3]"
+            ]
+          },
+          {
+            "number": 4,
+            "page_number": 1,
+            "content": "Compare file systems and DBMS in terms of data management.",
+            "marks": 5.0,
+            "learning_level": "L4",
+            "bbox": [
+              78.0,
+              221.25,
+              440.35992431640625,
+              234.99000549316406
+            ],
+            "source_lines": [
+              "Q4. Compare file systems and DBMS in terms of data management. [5 Marks, L4]"
+            ]
+          },
+          {
+            "number": 5,
+            "page_number": 1,
+            "content": "Analyze how normalization reduces data redundancy.",
+            "marks": 5.0,
+            "learning_level": "L5",
+            "bbox": [
+              78.0,
+              233.25,
+              394.8099365234375,
+              246.99000549316406
+            ],
+            "source_lines": [
+              "Q5. Analyze how normalization reduces data redundancy. [5 Marks, L5]"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "page_number": 1,
+      "width": 595.2755737304688,
+      "height": 841.8897705078125,
+      "rotation": 0,
+      "render_path": "ass2_assessment_assets/page_1.png",
+      "text_blocks": [
+        {
+          "type": "text",
+          "bbox": [
+            78.0,
+            76.31999969482422,
+            473.179931640625,
+            130.83999633789062
+          ],
+          "lines": [
+            {
+              "text": "Assignment Sample",
+              "bbox": [
+                182.94180297851562,
+                76.31999969482422,
+                412.3337707519531,
+                109.36799621582031
+              ],
+              "spans": [
+                {
+                  "text": "Assignment Sample",
+                  "bbox": [
+                    182.94180297851562,
+                    76.31999969482422,
+                    412.3337707519531,
+                    109.36799621582031
+                  ],
+                  "font": "Helvetica-Bold",
+                  "font_size": 24.0,
+                  "flags": 16,
+                  "color": 0,
+                  "origin": [
+                    182.94180297851562,
+                    102.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Course: B.Tech | Stream: Computer Science | Subject: Database Management Systems |",
+              "bbox": [
+                78.0,
+                105.30000305175781,
+                473.179931640625,
+                118.83999633789062
+              ],
+              "spans": [
+                {
+                  "text": "Course: B.Tech | Stream: Computer Science | Subject: Database Management Systems |",
+                  "bbox": [
+                    78.0,
+                    105.30000305175781,
+                    473.179931640625,
+                    118.83999633789062
+                  ],
+                  "font": "Helvetica-Oblique",
+                  "font_size": 10.0,
+                  "flags": 2,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    116.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Semester: IV | Paper Code: DB401",
+              "bbox": [
+                78.0,
+                117.30000305175781,
+                233.44996643066406,
+                130.83999633789062
+              ],
+              "spans": [
+                {
+                  "text": "Semester: IV | Paper Code: DB401",
+                  "bbox": [
+                    78.0,
+                    117.30000305175781,
+                    233.44996643066406,
+                    130.83999633789062
+                  ],
+                  "font": "Helvetica-Oblique",
+                  "font_size": 10.0,
+                  "flags": 2,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    128.0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "bbox": [
+            78.0,
+            149.02000427246094,
+            116.89200592041016,
+            168.29800415039062
+          ],
+          "lines": [
+            {
+              "text": "Unit 1",
+              "bbox": [
+                78.0,
+                149.02000427246094,
+                116.89200592041016,
+                168.29800415039062
+              ],
+              "spans": [
+                {
+                  "text": "Unit 1",
+                  "bbox": [
+                    78.0,
+                    149.02000427246094,
+                    116.89200592041016,
+                    168.29800415039062
+                  ],
+                  "font": "Helvetica-Bold",
+                  "font_size": 14.0,
+                  "flags": 16,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    164.0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "bbox": [
+            78.0,
+            173.3000030517578,
+            505.4098815917969,
+            246.99000549316406
+          ],
+          "lines": [
+            {
+              "text": "Topics: Introduction to DBMS; ER Models; Relational Models; Database Keys",
+              "bbox": [
+                78.0,
+                173.3000030517578,
+                420.90997314453125,
+                186.83999633789062
+              ],
+              "spans": [
+                {
+                  "text": "Topics: Introduction to DBMS; ER Models; Relational Models; Database Keys",
+                  "bbox": [
+                    78.0,
+                    173.3000030517578,
+                    420.90997314453125,
+                    186.83999633789062
+                  ],
+                  "font": "Helvetica-Oblique",
+                  "font_size": 10.0,
+                  "flags": 2,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    184.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q1. Define a DBMS and explain two advantages of using it. [2 Marks, L1]",
+              "bbox": [
+                78.0,
+                185.25,
+                401.4898986816406,
+                198.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q1. Define a DBMS and explain two advantages of using it. [2 Marks, L1]",
+                  "bbox": [
+                    78.0,
+                    185.25,
+                    401.4898986816406,
+                    198.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    196.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q2. Explain the difference between a primary key and a foreign key with examples. [3 Marks, L2]",
+              "bbox": [
+                78.0,
+                197.25,
+                505.4098815917969,
+                210.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q2. Explain the difference between a primary key and a foreign key with examples. [3 Marks, L2]",
+                  "bbox": [
+                    78.0,
+                    197.25,
+                    505.4098815917969,
+                    210.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    208.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q3. Draw an ER diagram for a library management system. [5 Marks, L3]",
+              "bbox": [
+                78.0,
+                209.25,
+                401.4399108886719,
+                222.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q3. Draw an ER diagram for a library management system. [5 Marks, L3]",
+                  "bbox": [
+                    78.0,
+                    209.25,
+                    401.4399108886719,
+                    222.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    220.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q4. Compare file systems and DBMS in terms of data management. [5 Marks, L4]",
+              "bbox": [
+                78.0,
+                221.25,
+                440.35992431640625,
+                234.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q4. Compare file systems and DBMS in terms of data management. [5 Marks, L4]",
+                  "bbox": [
+                    78.0,
+                    221.25,
+                    440.35992431640625,
+                    234.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    232.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q5. Analyze how normalization reduces data redundancy. [5 Marks, L5]",
+              "bbox": [
+                78.0,
+                233.25,
+                394.8099365234375,
+                246.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q5. Analyze how normalization reduces data redundancy. [5 Marks, L5]",
+                  "bbox": [
+                    78.0,
+                    233.25,
+                    394.8099365234375,
+                    246.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    244.0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "images": [],
+      "drawings": [],
+      "links": [],
+      "annotations": []
+    }
+  ]
+}

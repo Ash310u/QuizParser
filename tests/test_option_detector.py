@@ -6,8 +6,8 @@ import unittest
 
 import pymupdf as fitz
 
-from src.option_detector import split_options
-from src.pdf_reader import TextLine
+from utils.question_extractor.option_detector import split_options
+from utils.question_extractor.pdf_reader import TextLine
 
 
 def line(text: str, y: float, x: float = 50) -> TextLine:

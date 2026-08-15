@@ -11,6 +11,7 @@ OPTION_START = re.compile(
     r"^\s*(?:\(\s*([A-Ha-h]|[ivxlcdmIVXLCDM]+|\d{1,2})\s*\)|"
     r"([A-Ha-h]|[ivxlcdmIVXLCDM]+|\d{1,2})\s*[.):\-])\s*(.*)$"
 )
+CHECKBOX_PREFIX = re.compile(r"^\s*(?:\[\s*[xX]?\s*\]|\(\s*[xX]\s*\))\s*")
 BULLET_START = re.compile(r"^\s*(?:[•●▪◦*]|[-–—])\s+(.*)$")
 OPTIONS_PREFIX = re.compile(r"^\s*(?:options?|choices?|answers?)\s*[:\-]\s*(.*)$", re.IGNORECASE)
 ANNOTATION = re.compile(r"^\s*(?:options?|choices?|answers?)\s+(?:are|use|appear|shown|separated)\b", re.IGNORECASE)
@@ -22,7 +23,7 @@ def normalize_option_label(label: str) -> str:
 
 
 def parse_option_start(text: str) -> tuple[str, str] | None:
-    match = OPTION_START.match(text)
+    match = OPTION_START.match(CHECKBOX_PREFIX.sub("", text))
     if not match:
         return None
     return normalize_option_label(match.group(1) or match.group(2)), match.group(3).strip()
