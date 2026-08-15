@@ -80,12 +80,12 @@
           "path": [
             "software_engineering_advanced_mixed_content_assets/question_3_option_c_1.png"
           ],
-          "label": "C",
+          "label": "B",
           "content": "O(n²)"
         },
         {
           "path": [],
-          "label": "D",
+          "label": "C",
           "content": "O(2ⁿ) Semester 4 | Mixed text, symbols, tables, diagrams and image-only options"
         }
       ],
@@ -101,22 +101,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "R1"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "R2"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "R3"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "All requirements"
         }
       ],
@@ -132,28 +132,28 @@
           "path": [
             "software_engineering_advanced_mixed_content_assets/question_5_option_i_1.png"
           ],
-          "label": "I",
+          "label": "A",
           "content": ""
         },
         {
           "path": [
             "software_engineering_advanced_mixed_content_assets/question_5_option_ii_1.png"
           ],
-          "label": "II",
+          "label": "B",
           "content": ""
         },
         {
           "path": [
             "software_engineering_advanced_mixed_content_assets/question_5_option_iii_1.png"
           ],
-          "label": "III",
+          "label": "C",
           "content": ""
         },
         {
           "path": [
             "software_engineering_advanced_mixed_content_assets/question_5_option_iv_1.png"
           ],
-          "label": "IV",
+          "label": "D",
           "content": ""
         }
       ],

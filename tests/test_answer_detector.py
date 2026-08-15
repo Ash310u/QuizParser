@@ -7,6 +7,7 @@ import unittest
 import pymupdf as fitz
 
 from src.answer_detector import resolve_answer_labels, split_answer_lines
+from src.label_normalizer import alphabetic_label
 from src.option_detector import parse_option_start
 from src.models import Option
 from src.pdf_reader import TextLine
@@ -38,6 +39,14 @@ class AnswerDetectorTests(unittest.TestCase):
 
     def test_checkbox_prefixed_label_is_recognized(self) -> None:
         self.assertEqual(parse_option_start("[ ] B. Velocity"), ("B", "Velocity"))
+
+    def test_answer_labels_remap_from_source_to_standard_labels(self) -> None:
+        options = [Option(label="A", content="Ten"), Option(label="B", content="Eleven"), Option(label="C", content="Twelve")]
+        self.assertEqual(resolve_answer_labels("3) Twelve", options, ["1", "2", "3"]), ["C"])
+        self.assertEqual(resolve_answer_labels("I and II", options[:2], ["I", "II"]), ["A", "B"])
+
+    def test_alphabetic_labels_continue_after_z(self) -> None:
+        self.assertEqual([alphabetic_label(index) for index in (0, 3, 25, 26)], ["A", "D", "Z", "AA"])
 
 
 if __name__ == "__main__":

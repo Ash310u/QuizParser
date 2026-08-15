@@ -11,22 +11,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Unit testing"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Integration testing"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "System testing"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Acceptance testing"
         }
       ],
@@ -40,22 +40,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Waterfall"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Spiral"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Incremental"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "V-Model"
         }
       ],
@@ -69,22 +69,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Unified Modeling Language"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Universal Machine Logic"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "User Model Layer"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Unified Method Link"
         }
       ],
@@ -100,22 +100,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Requirements analysis"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Design"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Testing"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Maintenance"
         }
       ],
@@ -129,22 +129,22 @@
       "options": [
         {
           "path": [],
-          "label": "I",
+          "label": "A",
           "content": "Class diagram"
         },
         {
           "path": [],
-          "label": "II",
+          "label": "B",
           "content": "Sequence diagram"
         },
         {
           "path": [],
-          "label": "III",
+          "label": "C",
           "content": "Use case diagram"
         },
         {
           "path": [],
-          "label": "IV",
+          "label": "D",
           "content": "Activity diagram"
         }
       ],
@@ -158,22 +158,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "The application must let students submit answers."
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "The system should be fast."
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "A developer must drink coffee."
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "The system must keep an audit log."
         }
       ],
@@ -187,22 +187,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Analysis → Design → Implementation → Testing"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Design → Testing → Analysis → Implementation"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Implementation → Analysis → Testing → Design"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Testing → Analysis → Design → Implementation"
         }
       ],

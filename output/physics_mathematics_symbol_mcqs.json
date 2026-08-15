@@ -92,22 +92,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Temperature"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Mass"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Force"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Time"
         }
       ],
@@ -123,22 +123,22 @@
       "options": [
         {
           "path": [],
-          "label": "I",
+          "label": "A",
           "content": "Applied force F"
         },
         {
           "path": [],
-          "label": "II",
+          "label": "B",
           "content": "Normal force N"
         },
         {
           "path": [],
-          "label": "III",
+          "label": "C",
           "content": "Weight mg"
         },
         {
           "path": [],
-          "label": "IV",
+          "label": "D",
           "content": "No force acts downward"
         }
       ],
@@ -152,22 +152,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "1"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "2"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "3"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "4"
         }
       ],
@@ -181,22 +181,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "ω"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "α"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "θ"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Δ"
         }
       ],

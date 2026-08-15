@@ -11,22 +11,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Writing unit tests"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Creating UI mockups"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Gathering requirements"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Deploying to production"
         }
       ],
@@ -42,12 +42,12 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Each option is a phrase"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "individual choices inside it use a slash."
         }
       ],
@@ -63,22 +63,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Table cells"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "checkboxes"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "slashes"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "columns and statement combinations"
         }
       ],
@@ -92,39 +92,39 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Statement I: Agile welcomes changing requirements."
         },
         {
           "path": [
             "mcq_edge_case_option_layouts_assets/question_4_option_2_1.png"
           ],
-          "label": "2",
+          "label": "B",
           "content": "Statement II: Agile releases working software only once at the end."
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Both I and II are true"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Both I and II are false"
         },
         {
           "path": [],
-          "label": "5",
+          "label": "E",
           "content": "I is true but II is false"
         },
         {
           "path": [],
-          "label": "6",
+          "label": "F",
           "content": "I is false but II is true"
         },
         {
           "path": [],
-          "label": "7",
+          "label": "G",
           "content": "Statement-combination choices have no labels and may resemble normal text."
         }
       ],
@@ -138,22 +138,22 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Report → Triage → Fix → Verify"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Fix → Report → Verify → Triage"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Triage → Verify → Report → Fix"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Verify → Fix → Triage → Report"
         }
       ],
@@ -167,17 +167,17 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "The possible answers are inline"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "separated only by slashes"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "and do not have option labels."
         }
       ],

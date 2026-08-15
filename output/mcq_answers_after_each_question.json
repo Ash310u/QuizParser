@@ -30,9 +30,7 @@
           "content": "Pascal"
         }
       ],
-      "answer": [
-        "B"
-      ]
+      "answer": ["B"]
     },
     {
       "path": [],
@@ -61,10 +59,7 @@
           "content": "Temperature"
         }
       ],
-      "answer": [
-        "B",
-        "C"
-      ]
+      "answer": ["B", "C"]
     },
     {
       "path": [],
@@ -74,28 +69,26 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "10"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "11"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "12"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "14"
         }
       ],
-      "answer": [
-        "3"
-      ]
+      "answer": ["C"]
     },
     {
       "path": [],
@@ -124,11 +117,7 @@
           "content": "Regression testing"
         }
       ],
-      "answer": [
-        "A",
-        "B",
-        "D"
-      ]
+      "answer": ["A", "B", "D"]
     },
     {
       "path": [],
@@ -138,29 +127,26 @@
       "options": [
         {
           "path": [],
-          "label": "I",
+          "label": "A",
           "content": "It welcomes changing requirements."
         },
         {
           "path": [],
-          "label": "II",
+          "label": "B",
           "content": "It delivers working software iteratively."
         },
         {
           "path": [],
-          "label": "III",
+          "label": "C",
           "content": "It forbids customer feedback."
         },
         {
           "path": [],
-          "label": "IV",
+          "label": "D",
           "content": "It requires one final release only."
         }
       ],
-      "answer": [
-        "I",
-        "II"
-      ]
+      "answer": ["A", "B"]
     },
     {
       "path": [],
@@ -170,28 +156,26 @@
       "options": [
         {
           "path": [],
-          "label": "1",
+          "label": "A",
           "content": "Waterfall - sequential"
         },
         {
           "path": [],
-          "label": "2",
+          "label": "B",
           "content": "Agile - iterative"
         },
         {
           "path": [],
-          "label": "3",
+          "label": "C",
           "content": "Both statements"
         },
         {
           "path": [],
-          "label": "4",
+          "label": "D",
           "content": "Neither statement"
         }
       ],
-      "answer": [
-        "3"
-      ]
+      "answer": ["C"]
     }
   ]
 }

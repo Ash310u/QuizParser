@@ -32,7 +32,11 @@ def split_answer_lines(lines: list[TextLine]) -> tuple[list[TextLine], str | Non
     return content_lines, " ".join(answers) if answers else None
 
 
-def resolve_answer_labels(answer_text: str | None, options: list[Option]) -> list[str]:
+def resolve_answer_labels(
+    answer_text: str | None,
+    options: list[Option],
+    source_labels: list[str] | None = None,
+) -> list[str]:
     """Resolve printed answers such as ``B. Newton`` or ``I and II``.
 
     If a paper prints an answer's wording rather than its label, match it to an
@@ -42,8 +46,9 @@ def resolve_answer_labels(answer_text: str | None, options: list[Option]) -> lis
         return []
     normalized = re.sub(r"\s+", " ", answer_text).strip()
     selected: list[str] = []
-    for option in options:
-        label = re.escape(option.label)
+    for index, option in enumerate(options):
+        source_label = source_labels[index] if source_labels and index < len(source_labels) else option.label
+        label = re.escape(source_label)
         if re.search(rf"(?<![A-Za-z0-9])\(?{label}\)?(?=$|[^A-Za-z0-9])", normalized, re.IGNORECASE):
             selected.append(option.label)
             continue

@@ -13,6 +13,7 @@ from src.answer_detector import is_answer_line, resolve_answer_labels, split_ans
 from src.asset_extractor import AssetRegion, find_asset_regions
 from src.content_builder import Section, build_section, render_and_assign_assets
 from src.folder_scanner import PdfJob, output_directory, scan_pdfs
+from src.label_normalizer import alphabetic_label
 from src.models import Option, Paper, Question
 from src.ocr_processor import ocr_page
 from src.option_detector import split_options
@@ -116,9 +117,10 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
             sections = [stem, *option_sections]
             assignments = render_and_assign_assets(document, question_regions, sections, assets_dir, assets_relative_dir, number)
             options = []
-            for section in option_sections:
+            source_labels = [section.option_label or "?" for section in option_sections]
+            for option_index, section in enumerate(option_sections):
                 content, paths = build_section(section, assignments[id(section)])
-                options.append(Option(label=section.option_label or "?", content=content, path=paths))
+                options.append(Option(label=alphabetic_label(option_index), content=content, path=paths))
             content, paths = build_section(stem, assignments[id(stem)])
             question = Question(
                 number=number,
@@ -126,7 +128,7 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
                 content=content,
                 path=paths,
                 options=options,
-                answer=resolve_answer_labels(answer_text, options),
+                answer=resolve_answer_labels(answer_text, options, source_labels),
             )
             for warning in [*paper_warnings, *validate_question(question, destination_dir)]:
                 LOG.warning("%s, question %s: %s", job.pdf_path.name, number, warning)
