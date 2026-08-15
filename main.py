@@ -19,7 +19,7 @@ from src.ocr_processor import ocr_page
 from src.option_detector import split_options
 from src.pdf_reader import TextLine, extract_page, has_usable_text, open_pdf
 from src.question_detector import split_question_lines
-from src.validator import validate_question
+from src.validator import confidence_score, validate_question
 from src.json_writer import write_paper
 
 LOG = logging.getLogger("pdf_mcq_converter")
@@ -118,19 +118,29 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
             assignments = render_and_assign_assets(document, question_regions, sections, assets_dir, assets_relative_dir, number)
             options = []
             source_labels = [section.option_label or "?" for section in option_sections]
+            source_duplicate_count = len(source_labels) - len({label.casefold() for label in source_labels})
             for option_index, section in enumerate(option_sections):
                 content, paths = build_section(section, assignments[id(section)])
                 options.append(Option(label=alphabetic_label(option_index), content=content, path=paths))
             content, paths = build_section(stem, assignments[id(stem)])
+            answer_labels = resolve_answer_labels(answer_text, options, source_labels)
             question = Question(
                 number=number,
                 page_number=page_number,
                 content=content,
                 path=paths,
                 options=options,
-                answer=resolve_answer_labels(answer_text, options, source_labels),
+                answer=answer_labels,
             )
-            for warning in [*paper_warnings, *validate_question(question, destination_dir)]:
+            validation_messages = validate_question(question, destination_dir)
+            question.confidence_score = confidence_score(
+                question,
+                validation_messages,
+                answer_key_was_present=answer_text is not None,
+                used_ocr=any("used OCR" in warning for warning in paper_warnings),
+                source_duplicate_count=source_duplicate_count,
+            )
+            for warning in [*paper_warnings, *validation_messages]:
                 LOG.warning("%s, question %s: %s", job.pdf_path.name, number, warning)
             questions.append(question)
         if not grouped:

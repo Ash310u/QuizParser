@@ -30,7 +30,10 @@
           "content": "Pascal"
         }
       ],
-      "answer": ["B"]
+      "answer": [
+        "B"
+      ],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -59,7 +62,11 @@
           "content": "Temperature"
         }
       ],
-      "answer": ["B", "C"]
+      "answer": [
+        "B",
+        "C"
+      ],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -88,7 +95,10 @@
           "content": "14"
         }
       ],
-      "answer": ["C"]
+      "answer": [
+        "C"
+      ],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -117,7 +127,12 @@
           "content": "Regression testing"
         }
       ],
-      "answer": ["A", "B", "D"]
+      "answer": [
+        "A",
+        "B",
+        "D"
+      ],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -146,7 +161,11 @@
           "content": "It requires one final release only."
         }
       ],
-      "answer": ["A", "B"]
+      "answer": [
+        "A",
+        "B"
+      ],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -175,7 +194,10 @@
           "content": "Neither statement"
         }
       ],
-      "answer": ["C"]
+      "answer": [
+        "C"
+      ],
+      "confidence_score": 1.0
     }
   ]
 }

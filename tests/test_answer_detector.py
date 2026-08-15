@@ -10,7 +10,9 @@ from src.answer_detector import resolve_answer_labels, split_answer_lines
 from src.label_normalizer import alphabetic_label
 from src.option_detector import parse_option_start
 from src.models import Option
+from src.models import Question
 from src.pdf_reader import TextLine
+from src.validator import confidence_score
 
 
 def line(text: str, y: float) -> TextLine:
@@ -47,6 +49,28 @@ class AnswerDetectorTests(unittest.TestCase):
 
     def test_alphabetic_labels_continue_after_z(self) -> None:
         self.assertEqual([alphabetic_label(index) for index in (0, 3, 25, 26)], ["A", "D", "Z", "AA"])
+
+    def test_confidence_score_penalizes_unstructured_question(self) -> None:
+        question = Question(number=1, page_number=1, content="", options=[])
+        self.assertEqual(
+            confidence_score(question, ["Question has no text or image content.", "Fewer than two options were detected."], False, False),
+            0.20,
+        )
+
+    def test_confidence_thresholds_for_option_problems(self) -> None:
+        three = Question(number=1, page_number=1, content="Prompt", options=[Option(label=label, content=label) for label in "ABC"])
+        five = Question(number=1, page_number=1, content="Prompt", options=[Option(label=label, content=label) for label in "ABCDE"])
+        one_duplicate = Question(number=1, page_number=1, content="Prompt", options=[Option(label=label, content=label) for label in ["A", "A", "C", "D"]])
+        two_duplicates = Question(number=1, page_number=1, content="Prompt", options=[Option(label=label, content=label) for label in ["A", "A", "B", "B"]])
+        one_empty = Question(number=1, page_number=1, content="Prompt", options=[Option(label="A", content=""), *[Option(label=label, content=label) for label in "BCD"]])
+        self.assertLess(confidence_score(three, [], False, False), 0.50)
+        self.assertEqual(confidence_score(five, [], False, False), 0.90)
+        self.assertLess(confidence_score(one_duplicate, [], False, False), 0.75)
+        self.assertLess(confidence_score(two_duplicates, [], False, False), 0.50)
+        self.assertLess(confidence_score(one_empty, [], False, False), 0.75)
+        standard_labels = Question(number=1, page_number=1, content="Prompt", options=[Option(label=label, content=label) for label in "ABCD"])
+        self.assertLess(confidence_score(standard_labels, [], False, False, source_duplicate_count=1), 0.75)
+        self.assertLess(confidence_score(standard_labels, [], False, False, source_duplicate_count=2), 0.50)
 
 
 if __name__ == "__main__":

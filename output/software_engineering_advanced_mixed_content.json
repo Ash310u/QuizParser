@@ -30,7 +30,8 @@
           "content": "The product should be reliable."
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -61,7 +62,8 @@
           "content": "HTTPS"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -89,7 +91,8 @@
           "content": "O(2ⁿ) Semester 4 | Mixed text, symbols, tables, diagrams and image-only options"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 0.49
     },
     {
       "path": [
@@ -120,7 +123,8 @@
           "content": "All requirements"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -157,7 +161,8 @@
           "content": ""
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     }
   ]
 }

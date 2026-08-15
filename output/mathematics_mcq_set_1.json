@@ -30,7 +30,8 @@
           "content": "10"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -61,7 +62,8 @@
           "content": "No real roots"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -92,7 +94,8 @@
           "content": "12"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     }
   ]
 }

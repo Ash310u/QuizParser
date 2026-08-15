@@ -30,7 +30,8 @@
           "content": "Acceptance testing"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -59,7 +60,8 @@
           "content": "V-Model"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -88,7 +90,8 @@
           "content": "Unified Method Link"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [
@@ -119,7 +122,8 @@
           "content": "Maintenance"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -148,7 +152,8 @@
           "content": "Activity diagram"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -177,7 +182,8 @@
           "content": "The system must keep an audit log."
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     },
     {
       "path": [],
@@ -206,7 +212,8 @@
           "content": "Testing → Analysis → Design → Implementation"
         }
       ],
-      "answer": []
+      "answer": [],
+      "confidence_score": 1.0
     }
   ]
 }

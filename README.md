@@ -51,6 +51,8 @@ Each question stores compact data rather than a mixed block array:
 
 `path` always contains relative PNG paths. `answer` is always an array of option labels: `[]` when no answer key is present, `["B"]` for one answer, or `["B", "C"]` for multiple correct answers. Every output option uses alphabetic labels in its displayed order (`A`, `B`, `C`, `D`, ...), even when the PDF uses numbers, Roman numerals, bullets, or no visible labels.
 
+Each question also includes `confidence_score` between `0.0` and `1.0`. It is a structural extraction confidence, not a claim that the selected answer is factually correct. The fallback thresholds are deliberate: no options scores at most `0.20`; fewer than four options scores below `0.50`; one duplicate or empty option scores below `0.75`; two or more duplicate/empty options score below `0.50`; and each option above four lowers confidence by `0.10` (up to `0.30`). A printed answer key that cannot be matched to an extracted option also scores below `0.75`.
+
 Option labels are detected when present (`A`, `B`, `i`, `ii`, `1`, `2`, etc.). For label-free source material, the converter also recognizes bullet lists, comma- or semicolon-separated rows, and clearly separated option lines. All detected or inferred labels are normalized to `A`, `B`, `C`, `D`, ... in the final JSON. A completely unlabelled image grid is likewise alphabetically labelled when its prompt explicitly asks the reader to choose an image, diagram, figure, symbol, shape, or option.
 
 The extractor uses PDF text coordinates first, then OCR only for scanned/unusable pages. Embedded images and substantial vector graphic regions are rendered to PNG and placed in a sibling `<paper>_assets/` folder. Extraction issues are logged without stopping the batch.
