@@ -9,6 +9,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+from src.answer_detector import is_answer_line, resolve_answer_labels, split_answer_lines
 from src.asset_extractor import AssetRegion, find_asset_regions
 from src.content_builder import Section, build_section, render_and_assign_assets
 from src.folder_scanner import PdfJob, output_directory, scan_pdfs
@@ -91,8 +92,15 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
             else:
                 LOG.warning("%s: visual region on page %s could not be associated with a question", job.pdf_path, region.page_number)
         for index, (number, page_number, question_lines) in enumerate(grouped):
+            answer_line_rects = [line.rect for line in question_lines if is_answer_line(line.text)]
+            question_lines, answer_text = split_answer_lines(question_lines)
             stem_lines, option_groups = split_options(question_lines)
-            question_regions = regions_by_question[index]
+            # Answer banners are page decorations for the key, not question or
+            # option imagery. Do not save them as assets.
+            question_regions = [
+                region for region in regions_by_question[index]
+                if not any(region.rect.contains(answer_rect) for answer_rect in answer_line_rects)
+            ]
             # When no textual labels or choices exist, a prompt that explicitly
             # asks the reader to choose a visual item can still be represented
             # as numbered options. Each detected visual region becomes one
@@ -112,7 +120,14 @@ def convert_pdf(job: PdfJob, output_root: Path) -> Path:
                 content, paths = build_section(section, assignments[id(section)])
                 options.append(Option(label=section.option_label or "?", content=content, path=paths))
             content, paths = build_section(stem, assignments[id(stem)])
-            question = Question(number=number, page_number=page_number, content=content, path=paths, options=options)
+            question = Question(
+                number=number,
+                page_number=page_number,
+                content=content,
+                path=paths,
+                options=options,
+                answer=resolve_answer_labels(answer_text, options),
+            )
             for warning in [*paper_warnings, *validate_question(question, destination_dir)]:
                 LOG.warning("%s, question %s: %s", job.pdf_path.name, number, warning)
             questions.append(question)

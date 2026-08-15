@@ -1,0 +1,163 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "software_engineering_advanced_mixed_content.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "Which non-functional requirement is measurable?",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "The interface should look modern."
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "Response time must be ≤ 2 seconds."
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "The system should be easy to use."
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "The product should be reliable."
+        }
+      ],
+      "answer": []
+    },
+    {
+      "path": [
+        "software_engineering_advanced_mixed_content_assets/question_2_image_1.png"
+      ],
+      "number": 2,
+      "page_number": 1,
+      "content": "Study the following deployment architecture. Which component stores question data?",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "Faculty Portal"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "Exam API"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "Question Store"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "HTTPS"
+        }
+      ],
+      "answer": []
+    },
+    {
+      "path": [
+        "software_engineering_advanced_mixed_content_assets/question_3_image_1.png"
+      ],
+      "number": 3,
+      "page_number": 1,
+      "content": "The recurrence below appears in a divide-and-conquer algorithm. What is its complexity?",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "O(n)"
+        },
+        {
+          "path": [
+            "software_engineering_advanced_mixed_content_assets/question_3_option_c_1.png"
+          ],
+          "label": "C",
+          "content": "O(n²)"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "O(2ⁿ) Semester 4 | Mixed text, symbols, tables, diagrams and image-only options"
+        }
+      ],
+      "answer": []
+    },
+    {
+      "path": [
+        "software_engineering_advanced_mixed_content_assets/question_4_diagram_1.png"
+      ],
+      "number": 4,
+      "page_number": 2,
+      "content": "Refer to the requirements table. Which requirement is functional?",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "R1"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "R2"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "R3"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "All requirements"
+        }
+      ],
+      "answer": []
+    },
+    {
+      "path": [],
+      "number": 5,
+      "page_number": 2,
+      "content": "Which image is a UML class diagram?",
+      "options": [
+        {
+          "path": [
+            "software_engineering_advanced_mixed_content_assets/question_5_option_i_1.png"
+          ],
+          "label": "I",
+          "content": ""
+        },
+        {
+          "path": [
+            "software_engineering_advanced_mixed_content_assets/question_5_option_ii_1.png"
+          ],
+          "label": "II",
+          "content": ""
+        },
+        {
+          "path": [
+            "software_engineering_advanced_mixed_content_assets/question_5_option_iii_1.png"
+          ],
+          "label": "III",
+          "content": ""
+        },
+        {
+          "path": [
+            "software_engineering_advanced_mixed_content_assets/question_5_option_iv_1.png"
+          ],
+          "label": "IV",
+          "content": ""
+        }
+      ],
+      "answer": []
+    }
+  ]
+}

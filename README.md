@@ -45,12 +45,12 @@ Each question stores compact data rather than a mixed block array:
   "options": [
     {"label": "A", "content": "", "path": ["paper_assets/question_2_option_a_1.png"]}
   ],
-  "answer": null
+  "answer": ["A"]
 }
 ```
 
-`path` always contains relative PNG paths. `answer` is `null` unless the source PDF includes an answer key.
+`path` always contains relative PNG paths. `answer` is always an array of option labels: `[]` when no answer key is present, `["B"]` for one answer, or `["B", "C"]` for multiple correct answers.
 
 Option labels are detected when present (`A`, `B`, `i`, `ii`, `1`, `2`, etc.). For label-free source material, the converter also recognizes bullet lists, comma- or semicolon-separated rows, and clearly separated option lines. Those inferred choices receive stable numeric labels (`"1"`, `"2"`, ...). A completely unlabelled image grid is likewise numbered when its prompt explicitly asks the reader to choose an image, diagram, figure, symbol, shape, or option.
 
-The extractor uses PDF text coordinates first, then OCR only for scanned/unusable pages. Embedded images and substantial vector graphic regions are rendered to PNG and placed in a sibling `<paper>_assets/` folder. Ambiguous extraction is retained and called out in each question's `warnings` field.
+The extractor uses PDF text coordinates first, then OCR only for scanned/unusable pages. Embedded images and substantial vector graphic regions are rendered to PNG and placed in a sibling `<paper>_assets/` folder. Extraction issues are logged without stopping the batch.

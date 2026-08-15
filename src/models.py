@@ -37,7 +37,9 @@ class Question(PathContainer):
     page_number: int = Field(ge=1)
     content: str = ""
     options: list[Option] = Field(default_factory=list)
-    answer: str | None = None
+    # Always an array: [] means no answer key was detected, while one or more
+    # values contain the selected option labels.
+    answer: list[str] = Field(default_factory=list)
 
 
 class Paper(BaseModel):

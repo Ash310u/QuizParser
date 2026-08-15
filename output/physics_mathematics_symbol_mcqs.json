@@ -30,7 +30,7 @@
           "content": "2500 m/s"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [
@@ -61,7 +61,7 @@
           "content": "V = IR"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [
@@ -82,7 +82,7 @@
           "content": "displacement equation (image-based option)"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [],
@@ -111,7 +111,7 @@
           "content": "Time"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [
@@ -142,7 +142,7 @@
           "content": "No force acts downward"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [],
@@ -171,7 +171,7 @@
           "content": "4"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [],
@@ -200,7 +200,7 @@
           "content": "Δ"
         }
       ],
-      "answer": null
+      "answer": []
     }
   ]
 }

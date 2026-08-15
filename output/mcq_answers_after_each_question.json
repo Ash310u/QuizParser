@@ -1,0 +1,197 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "mcq_answers_after_each_question.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "What is the SI unit of force? (Select one)",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "Joule"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "Newton"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "Watt"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "Pascal"
+        }
+      ],
+      "answer": [
+        "B"
+      ]
+    },
+    {
+      "path": [],
+      "number": 2,
+      "page_number": 1,
+      "content": "Which are vector quantities? (Select all that apply)",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "Mass"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "Velocity"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "Force"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "Temperature"
+        }
+      ],
+      "answer": [
+        "B",
+        "C"
+      ]
+    },
+    {
+      "path": [],
+      "number": 3,
+      "page_number": 1,
+      "content": "What is the value of √144? (Choose one)",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "10"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "11"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "12"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "14"
+        }
+      ],
+      "answer": [
+        "3"
+      ]
+    },
+    {
+      "path": [],
+      "number": 4,
+      "page_number": 2,
+      "content": "Which are valid software testing activities? (Multiple answers)",
+      "options": [
+        {
+          "path": [],
+          "label": "A",
+          "content": "Unit testing"
+        },
+        {
+          "path": [],
+          "label": "B",
+          "content": "Integration testing"
+        },
+        {
+          "path": [],
+          "label": "C",
+          "content": "Requirements gathering"
+        },
+        {
+          "path": [],
+          "label": "D",
+          "content": "Regression testing"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "D"
+      ]
+    },
+    {
+      "path": [],
+      "number": 5,
+      "page_number": 2,
+      "content": "Which statements about Agile are true? (Choose two or more)",
+      "options": [
+        {
+          "path": [],
+          "label": "I",
+          "content": "It welcomes changing requirements."
+        },
+        {
+          "path": [],
+          "label": "II",
+          "content": "It delivers working software iteratively."
+        },
+        {
+          "path": [],
+          "label": "III",
+          "content": "It forbids customer feedback."
+        },
+        {
+          "path": [],
+          "label": "IV",
+          "content": "It requires one final release only."
+        }
+      ],
+      "answer": [
+        "I",
+        "II"
+      ]
+    },
+    {
+      "path": [],
+      "number": 6,
+      "page_number": 2,
+      "content": "Which pair is correct? (Select one)",
+      "options": [
+        {
+          "path": [],
+          "label": "1",
+          "content": "Waterfall - sequential"
+        },
+        {
+          "path": [],
+          "label": "2",
+          "content": "Agile - iterative"
+        },
+        {
+          "path": [],
+          "label": "3",
+          "content": "Both statements"
+        },
+        {
+          "path": [],
+          "label": "4",
+          "content": "Neither statement"
+        }
+      ],
+      "answer": [
+        "3"
+      ]
+    }
+  ]
+}

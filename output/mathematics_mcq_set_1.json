@@ -30,7 +30,7 @@
           "content": "10"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [
@@ -61,7 +61,7 @@
           "content": "No real roots"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [
@@ -92,7 +92,7 @@
           "content": "12"
         }
       ],
-      "answer": null
+      "answer": []
     }
   ]
 }

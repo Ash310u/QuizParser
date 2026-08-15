@@ -30,7 +30,7 @@
           "content": "Deploying to production"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [
@@ -51,7 +51,7 @@
           "content": "individual choices inside it use a slash."
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [
@@ -82,7 +82,7 @@
           "content": "columns and statement combinations"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [],
@@ -128,7 +128,7 @@
           "content": "Statement-combination choices have no labels and may resemble normal text."
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [],
@@ -157,7 +157,7 @@
           "content": "Verify → Fix → Triage → Report"
         }
       ],
-      "answer": null
+      "answer": []
     },
     {
       "path": [],
@@ -181,7 +181,7 @@
           "content": "and do not have option labels."
         }
       ],
-      "answer": null
+      "answer": []
     }
   ]
 }
