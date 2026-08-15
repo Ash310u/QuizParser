@@ -6,7 +6,7 @@ import importlib.util
 from functools import lru_cache
 from pathlib import Path
 
-SUMMARIZER_PATH = Path(__file__).resolve().parents[1] / "Summarizer" / "summarizer.py"
+SUMMARIZER_PATH = Path(__file__).resolve().parents[2] / "Summarizer" / "summarizer.py"
 
 
 @lru_cache(maxsize=1)

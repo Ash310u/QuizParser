@@ -1,4 +1,4 @@
-"""Convert assessment PDFs into both layout-preserving and useful JSON data.
+"""Assessment PDF conversion implementation.
 
 The layout record deliberately does not assume an assignment template: each page
 keeps its text spans, embedded images, vector drawings, links, and annotations.

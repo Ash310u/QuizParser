@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pymupdf
 
-from assessment_extractors.service import convert_assessment
+from utils.assessment_extractor.engine import convert_assessment
 
 
 class AssessmentExtractorTests(unittest.TestCase):

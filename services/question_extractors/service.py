@@ -9,8 +9,8 @@ from typing import Iterable
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-from main import convert_pdf
-from src.folder_scanner import PdfJob, scan_pdfs
+from utils.question_extractor.engine import convert_pdf
+from utils.question_extractor.folder_scanner import PdfJob, scan_pdfs
 
 
 def extract_questions(

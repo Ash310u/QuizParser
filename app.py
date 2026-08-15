@@ -7,17 +7,19 @@ from pathlib import Path
 
 from flask import Flask, jsonify, request
 
-from assessment_extractors.service import extract_assessments
-from question_extractors.service import extract_questions
-from summarize.service import summarize_units
+from services.assessment_extractors.service import extract_assessments
+from services.question_extractors.service import extract_questions
+from services.summarize.service import summarize_units
+from utils.summarizer.output_writer import save_summary_output
 
 
 def create_app() -> Flask:
     app = Flask(__name__)
     input_directory = Path(os.environ.get("QUESTION_INPUT_DIR", "input"))
-    output_directory = Path(os.environ.get("QUESTION_OUTPUT_DIR", "output"))
+    output_directory = Path(os.environ.get("QUESTION_OUTPUT_DIR", "output/question_extractor"))
     assessment_input_directory = Path(os.environ.get("ASSESSMENT_INPUT_DIR", "input"))
-    assessment_output_directory = Path(os.environ.get("ASSESSMENT_OUTPUT_DIR", "assessment_output"))
+    assessment_output_directory = Path(os.environ.get("ASSESSMENT_OUTPUT_DIR", "output/assessment_extractor"))
+    summary_output_directory = Path(os.environ.get("SUMMARY_OUTPUT_DIR", "output/summarizer"))
 
     @app.post("/question-extractor")
     def question_extractor():
@@ -50,7 +52,9 @@ def create_app() -> Flask:
         if word_limit is not None and (not isinstance(word_limit, int) or isinstance(word_limit, bool) or word_limit < 1):
             return jsonify({"error": "word_limit must be a positive integer when provided."}), 400
         try:
-            return jsonify({"summaries": summarize_units(units, word_limit)}), 200
+            summaries = summarize_units(units, word_limit)
+            output_path = save_summary_output(summaries, summary_output_directory)
+            return jsonify({"summaries": summaries, "output_path": output_path.as_posix()}), 200
         except Exception as exc:
             return jsonify({"error": f"Summarization failed: {exc}"}), 500
 

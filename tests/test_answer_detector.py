@@ -6,13 +6,13 @@ import unittest
 
 import pymupdf as fitz
 
-from src.answer_detector import resolve_answer_labels, split_answer_lines
-from src.label_normalizer import alphabetic_label
-from src.option_detector import parse_option_start
-from src.models import Option
-from src.models import Question
-from src.pdf_reader import TextLine
-from src.validator import confidence_score
+from utils.question_extractor.answer_detector import resolve_answer_labels, split_answer_lines
+from utils.question_extractor.label_normalizer import alphabetic_label
+from utils.question_extractor.option_detector import parse_option_start
+from utils.question_extractor.models import Option
+from utils.question_extractor.models import Question
+from utils.question_extractor.pdf_reader import TextLine
+from utils.question_extractor.validator import confidence_score
 
 
 def line(text: str, y: float) -> TextLine:

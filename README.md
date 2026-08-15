@@ -5,8 +5,13 @@ The converter does not require subject or semester folders and never embeds abso
 
 ## Install
 
+Use one project virtual environment for all three services. Python 3.13 or
+earlier is required because the existing summarizer's pinned dependencies do
+not currently provide a Python 3.14 wheel.
+
 ```bash
-python -m pip install -r requirements.txt
+python3.13 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 ```
 
 Tesseract must also be installed and available as `tesseract` on your `PATH`. It is only used for pages without usable selectable PDF text.
@@ -14,34 +19,19 @@ Tesseract must also be installed and available as `tesseract` on your `PATH`. It
 ## Run
 
 ```bash
-python main.py
+.venv/bin/python -m utils.question_extractor.engine
 ```
 
 ## Flask API
 
-For the question-extraction endpoint (including Flask), install only the main
-project dependencies. This works with the current Python 3.14 environment:
+Run every endpoint from that same environment:
 
 ```bash
-python -m pip install -r requirements.txt
-python app.py
-```
-
-The `/summarize` endpoint uses the existing `Summarizer` project's pinned
-Hugging Face dependencies. Its pinned `tokenizers` version does not provide a
-Python 3.14 wheel, so run the full two-endpoint server from a Python 3.13-or-
-earlier virtual environment instead:
-
-```bash
-# Example when Python 3.13 is installed as python3.13.
-python3.13 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m pip install -r Summarizer/requirements.txt
 .venv/bin/python app.py
 ```
 
 The first call to `/summarize` also downloads the existing local model. The
-question-extraction endpoint does not require those summarizer dependencies.
+other endpoints do not load that model until it is needed.
 
 The server has no authentication and exposes three endpoints:
 
@@ -60,10 +50,21 @@ curl -X POST http://localhost:5000/summarize \
   -d '{"units":{"1":["First topic.","Second topic."]},"word_limit":50}'
 ```
 
-The question endpoint saves uploads in `input/`, writes JSON/assets to `output/`, and returns the generated JSON in its response. Set `QUESTION_INPUT_DIR` or `QUESTION_OUTPUT_DIR` to use different directories.
+Every API result is stored under the shared `output/` directory:
+
+```text
+output/
+├── question_extractor/    MCQ JSON and image assets
+├── assessment_extractor/  assessment JSON and page/image assets
+└── summarizer/            one JSON response per summary request
+```
+
+The question endpoint saves uploads in `input/`, writes JSON/assets to
+`output/question_extractor/`, and returns the generated JSON in its response.
+Set `QUESTION_INPUT_DIR` or `QUESTION_OUTPUT_DIR` to use different directories.
 
 The assessment endpoint is separate from the MCQ converter. It writes to
-`assessment_output/` by default (override with `ASSESSMENT_INPUT_DIR` and
+`output/assessment_extractor/` by default (override with `ASSESSMENT_INPUT_DIR` and
 `ASSESSMENT_OUTPUT_DIR`). Its JSON includes the full page layout—text blocks
 with spans and coordinates, embedded images, vector drawings, links,
 annotations, dimensions, and a rendered page image—plus a best-effort
@@ -71,10 +72,34 @@ annotations, dimensions, and a rendered page image—plus a best-effort
 and learning levels. The layout data remains available when a source PDF uses
 a different assessment format.
 
+The summary endpoint writes its response to `output/summarizer/` and includes
+the saved `output_path` in its JSON response. Set `SUMMARY_OUTPUT_DIR` to
+override that destination.
+
+## Project structure
+
+```text
+app.py                         Flask application and route registration
+services/
+  question_extractors/         Public MCQ service interface
+  assessment_extractors/       Public assessment service interface
+  summarize/                   Public summary service interface
+utils/
+  question_extractor/          MCQ PDF extraction logic and models
+  assessment_extractor/        Assessment PDF layout/parser logic
+  summarizer/                  Adapter for the unchanged Summarizer project
+Summarizer/                    Existing summarizer implementation (unchanged)
+tests/                         Endpoint and extraction tests
+```
+
+Each public service folder contains only `__init__.py` and `service.py`.
+Implementation details belong in its matching `utils/` package, keeping the
+Flask layer and service interfaces small and stable.
+
 By default this reads `input/` and writes `output/`. Custom roots are also supported:
 
 ```bash
-python main.py --input /path/to/input --output /path/to/output
+.venv/bin/python -m utils.question_extractor.engine --input /path/to/input --output /path/to/output
 ```
 
 Put every PDF directly in `input/`:

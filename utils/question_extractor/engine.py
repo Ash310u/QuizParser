@@ -1,4 +1,4 @@
-"""Command-line entry point for batch PDF MCQ conversion."""
+"""Core batch PDF MCQ conversion workflow."""
 
 from __future__ import annotations
 
@@ -9,18 +9,18 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-from src.answer_detector import is_answer_line, resolve_answer_labels, split_answer_lines
-from src.asset_extractor import AssetRegion, find_asset_regions
-from src.content_builder import Section, build_section, render_and_assign_assets
-from src.folder_scanner import PdfJob, output_directory, scan_pdfs
-from src.label_normalizer import alphabetic_label
-from src.models import Option, Paper, Question
-from src.ocr_processor import ocr_page
-from src.option_detector import split_options
-from src.pdf_reader import TextLine, extract_page, has_usable_text, open_pdf
-from src.question_detector import split_question_lines
-from src.validator import confidence_score, validate_question
-from src.json_writer import write_paper
+from .answer_detector import is_answer_line, resolve_answer_labels, split_answer_lines
+from .asset_extractor import AssetRegion, find_asset_regions
+from .content_builder import Section, build_section, render_and_assign_assets
+from .folder_scanner import PdfJob, output_directory, scan_pdfs
+from .json_writer import write_paper
+from .label_normalizer import alphabetic_label
+from .models import Option, Paper, Question
+from .ocr_processor import ocr_page
+from .option_detector import split_options
+from .pdf_reader import TextLine, extract_page, has_usable_text, open_pdf
+from .question_detector import split_question_lines
+from .validator import confidence_score, validate_question
 
 LOG = logging.getLogger("pdf_mcq_converter")
 IMAGE_CHOICE_PROMPT = re.compile(
