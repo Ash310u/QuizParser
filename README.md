@@ -17,6 +17,60 @@ Tesseract must also be installed and available as `tesseract` on your `PATH`. It
 python main.py
 ```
 
+## Flask API
+
+For the question-extraction endpoint (including Flask), install only the main
+project dependencies. This works with the current Python 3.14 environment:
+
+```bash
+python -m pip install -r requirements.txt
+python app.py
+```
+
+The `/summarize` endpoint uses the existing `Summarizer` project's pinned
+Hugging Face dependencies. Its pinned `tokenizers` version does not provide a
+Python 3.14 wheel, so run the full two-endpoint server from a Python 3.13-or-
+earlier virtual environment instead:
+
+```bash
+# Example when Python 3.13 is installed as python3.13.
+python3.13 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m pip install -r Summarizer/requirements.txt
+.venv/bin/python app.py
+```
+
+The first call to `/summarize` also downloads the existing local model. The
+question-extraction endpoint does not require those summarizer dependencies.
+
+The server has no authentication and exposes three endpoints:
+
+```bash
+# Convert uploaded PDFs. Use no files to process every PDF in input/.
+curl -X POST http://localhost:5000/question-extractor \
+  -F "files=@/path/to/paper.pdf"
+
+# Preserve a complete assessment PDF layout and extract sections/questions.
+curl -X POST http://localhost:5000/assessment-extractor \
+  -F "files=@/path/to/assignment.pdf"
+
+# Summarize text units using Summarizer/summarizer.py.
+curl -X POST http://localhost:5000/summarize \
+  -H "Content-Type: application/json" \
+  -d '{"units":{"1":["First topic.","Second topic."]},"word_limit":50}'
+```
+
+The question endpoint saves uploads in `input/`, writes JSON/assets to `output/`, and returns the generated JSON in its response. Set `QUESTION_INPUT_DIR` or `QUESTION_OUTPUT_DIR` to use different directories.
+
+The assessment endpoint is separate from the MCQ converter. It writes to
+`assessment_output/` by default (override with `ASSESSMENT_INPUT_DIR` and
+`ASSESSMENT_OUTPUT_DIR`). Its JSON includes the full page layout—text blocks
+with spans and coordinates, embedded images, vector drawings, links,
+annotations, dimensions, and a rendered page image—plus a best-effort
+`assessment` view of the title, metadata, sections, topics, questions, marks,
+and learning levels. The layout data remains available when a source PDF uses
+a different assessment format.
+
 By default this reads `input/` and writes `output/`. Custom roots are also supported:
 
 ```bash

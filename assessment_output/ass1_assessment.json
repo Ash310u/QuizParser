@@ -1,0 +1,451 @@
+{
+  "schema_version": "1.0",
+  "source_pdf": "ass1.pdf",
+  "document_metadata": {
+    "format": "PDF 1.4",
+    "title": "(anonymous)",
+    "author": "(anonymous)",
+    "subject": "(unspecified)",
+    "creator": "(unspecified)",
+    "producer": "ReportLab PDF Library - (opensource)",
+    "creationDate": "D:20260815160409+00'00'",
+    "modDate": "D:20260815160409+00'00'"
+  },
+  "table_of_contents": [],
+  "assessment": {
+    "title": "Assignment Sample",
+    "metadata": {
+      "course": "B.Tech",
+      "stream": "Computer Science",
+      "subject": "Data Structures",
+      "semester": "III"
+    },
+    "sections": [
+      {
+        "title": "Unsectioned content",
+        "identifier": null,
+        "page_number": 1,
+        "metadata": {},
+        "questions": []
+      },
+      {
+        "title": "Unit 2",
+        "identifier": "2",
+        "page_number": 1,
+        "metadata": {
+          "topics": "Linked Lists; Stacks; Queues; Applications of Linear Data Structures"
+        },
+        "questions": [
+          {
+            "number": 1,
+            "page_number": 1,
+            "content": "Define a linked list and explain its advantages over an array.",
+            "marks": 2.0,
+            "learning_level": "L1",
+            "bbox": [
+              78.0,
+              185.25,
+              424.2698974609375,
+              198.99000549316406
+            ],
+            "source_lines": [
+              "Q1. Define a linked list and explain its advantages over an array. [2 Marks, L1]"
+            ]
+          },
+          {
+            "number": 2,
+            "page_number": 1,
+            "content": "Differentiate between singly linked lists and doubly linked lists with examples.",
+            "marks": 3.0,
+            "learning_level": "L2",
+            "bbox": [
+              78.0,
+              197.25,
+              498.71990966796875,
+              210.99000549316406
+            ],
+            "source_lines": [
+              "Q2. Differentiate between singly linked lists and doubly linked lists with examples. [3 Marks, L2]"
+            ]
+          },
+          {
+            "number": 3,
+            "page_number": 1,
+            "content": "Write an algorithm to push and pop elements from a stack.",
+            "marks": 5.0,
+            "learning_level": "L3",
+            "bbox": [
+              78.0,
+              209.25,
+              416.47991943359375,
+              222.99000549316406
+            ],
+            "source_lines": [
+              "Q3. Write an algorithm to push and pop elements from a stack. [5 Marks, L3]"
+            ]
+          },
+          {
+            "number": 4,
+            "page_number": 1,
+            "content": "Compare array-based and linked-list-based queue implementations.",
+            "marks": 5.0,
+            "learning_level": "L4",
+            "bbox": [
+              78.0,
+              221.25,
+              458.14990234375,
+              234.99000549316406
+            ],
+            "source_lines": [
+              "Q4. Compare array-based and linked-list-based queue implementations. [5 Marks, L4]"
+            ]
+          },
+          {
+            "number": 5,
+            "page_number": 1,
+            "content": "Design a queue-based solution for a printer scheduling system.",
+            "marks": 5.0,
+            "learning_level": "L5",
+            "bbox": [
+              78.0,
+              233.25,
+              437.0498962402344,
+              246.99000549316406
+            ],
+            "source_lines": [
+              "Q5. Design a queue-based solution for a printer scheduling system. [5 Marks, L5]"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "page_number": 1,
+      "width": 595.2755737304688,
+      "height": 841.8897705078125,
+      "rotation": 0,
+      "render_path": "ass1_assessment_assets/page_1.png",
+      "text_blocks": [
+        {
+          "type": "text",
+          "bbox": [
+            78.0,
+            76.31999969482422,
+            491.8999328613281,
+            130.83999633789062
+          ],
+          "lines": [
+            {
+              "text": "Assignment Sample",
+              "bbox": [
+                182.94180297851562,
+                76.31999969482422,
+                412.3337707519531,
+                109.36799621582031
+              ],
+              "spans": [
+                {
+                  "text": "Assignment Sample",
+                  "bbox": [
+                    182.94180297851562,
+                    76.31999969482422,
+                    412.3337707519531,
+                    109.36799621582031
+                  ],
+                  "font": "Helvetica-Bold",
+                  "font_size": 24.0,
+                  "flags": 16,
+                  "color": 0,
+                  "origin": [
+                    182.94180297851562,
+                    102.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Course: B.Tech | Stream: Computer Science | Subject: Data Structures | Semester: III | Paper",
+              "bbox": [
+                78.0,
+                105.30000305175781,
+                491.8999328613281,
+                118.83999633789062
+              ],
+              "spans": [
+                {
+                  "text": "Course: B.Tech | Stream: Computer Science | Subject: Data Structures | Semester: III | Paper",
+                  "bbox": [
+                    78.0,
+                    105.30000305175781,
+                    491.8999328613281,
+                    118.83999633789062
+                  ],
+                  "font": "Helvetica-Oblique",
+                  "font_size": 10.0,
+                  "flags": 2,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    116.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Code: DS301",
+              "bbox": [
+                78.0,
+                117.30000305175781,
+                138.02999877929688,
+                130.83999633789062
+              ],
+              "spans": [
+                {
+                  "text": "Code: DS301",
+                  "bbox": [
+                    78.0,
+                    117.30000305175781,
+                    138.02999877929688,
+                    130.83999633789062
+                  ],
+                  "font": "Helvetica-Oblique",
+                  "font_size": 10.0,
+                  "flags": 2,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    128.0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "bbox": [
+            78.0,
+            149.02000427246094,
+            116.89200592041016,
+            168.29800415039062
+          ],
+          "lines": [
+            {
+              "text": "Unit 2",
+              "bbox": [
+                78.0,
+                149.02000427246094,
+                116.89200592041016,
+                168.29800415039062
+              ],
+              "spans": [
+                {
+                  "text": "Unit 2",
+                  "bbox": [
+                    78.0,
+                    149.02000427246094,
+                    116.89200592041016,
+                    168.29800415039062
+                  ],
+                  "font": "Helvetica-Bold",
+                  "font_size": 14.0,
+                  "flags": 16,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    164.0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "bbox": [
+            78.0,
+            173.3000030517578,
+            498.71990966796875,
+            246.99000549316406
+          ],
+          "lines": [
+            {
+              "text": "Topics: Linked Lists; Stacks; Queues; Applications of Linear Data Structures",
+              "bbox": [
+                78.0,
+                173.3000030517578,
+                415.3699035644531,
+                186.83999633789062
+              ],
+              "spans": [
+                {
+                  "text": "Topics: Linked Lists; Stacks; Queues; Applications of Linear Data Structures",
+                  "bbox": [
+                    78.0,
+                    173.3000030517578,
+                    415.3699035644531,
+                    186.83999633789062
+                  ],
+                  "font": "Helvetica-Oblique",
+                  "font_size": 10.0,
+                  "flags": 2,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    184.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q1. Define a linked list and explain its advantages over an array. [2 Marks, L1]",
+              "bbox": [
+                78.0,
+                185.25,
+                424.2698974609375,
+                198.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q1. Define a linked list and explain its advantages over an array. [2 Marks, L1]",
+                  "bbox": [
+                    78.0,
+                    185.25,
+                    424.2698974609375,
+                    198.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    196.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q2. Differentiate between singly linked lists and doubly linked lists with examples. [3 Marks, L2]",
+              "bbox": [
+                78.0,
+                197.25,
+                498.71990966796875,
+                210.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q2. Differentiate between singly linked lists and doubly linked lists with examples. [3 Marks, L2]",
+                  "bbox": [
+                    78.0,
+                    197.25,
+                    498.71990966796875,
+                    210.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    208.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q3. Write an algorithm to push and pop elements from a stack. [5 Marks, L3]",
+              "bbox": [
+                78.0,
+                209.25,
+                416.47991943359375,
+                222.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q3. Write an algorithm to push and pop elements from a stack. [5 Marks, L3]",
+                  "bbox": [
+                    78.0,
+                    209.25,
+                    416.47991943359375,
+                    222.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    220.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q4. Compare array-based and linked-list-based queue implementations. [5 Marks, L4]",
+              "bbox": [
+                78.0,
+                221.25,
+                458.14990234375,
+                234.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q4. Compare array-based and linked-list-based queue implementations. [5 Marks, L4]",
+                  "bbox": [
+                    78.0,
+                    221.25,
+                    458.14990234375,
+                    234.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    232.0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Q5. Design a queue-based solution for a printer scheduling system. [5 Marks, L5]",
+              "bbox": [
+                78.0,
+                233.25,
+                437.0498962402344,
+                246.99000549316406
+              ],
+              "spans": [
+                {
+                  "text": "Q5. Design a queue-based solution for a printer scheduling system. [5 Marks, L5]",
+                  "bbox": [
+                    78.0,
+                    233.25,
+                    437.0498962402344,
+                    246.99000549316406
+                  ],
+                  "font": "Helvetica",
+                  "font_size": 10.0,
+                  "flags": 0,
+                  "color": 0,
+                  "origin": [
+                    78.0,
+                    244.0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "images": [],
+      "drawings": [],
+      "links": [],
+      "annotations": []
+    }
+  ]
+}
