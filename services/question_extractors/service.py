@@ -13,6 +13,46 @@ from utils.question_extractor.engine import convert_pdf
 from utils.question_extractor.folder_scanner import PdfJob, scan_pdfs
 
 
+def _resolve_pdf_path(directory: Path, filename: str) -> Path | None:
+    """Return the existing PDF at ``directory/filename``, or ``None`` if unsafe/missing."""
+    safe_name = secure_filename(filename or "")
+    if not safe_name or Path(safe_name).suffix.lower() != ".pdf":
+        return None
+    candidate = (directory / safe_name).resolve()
+    try:
+        candidate.relative_to(directory.resolve())
+    except ValueError:
+        return None
+    return candidate if candidate.is_file() else None
+
+
+def extract_questions_from_directory(directory: Path, filenames: Iterable[str]) -> dict:
+    """Convert PDFs already saved under ``directory``; assets are saved alongside them,
+    but the generated JSON file itself is not kept on disk, only returned."""
+    results: list[dict] = []
+    failures: list[dict] = []
+    for filename in filenames:
+        pdf_path = _resolve_pdf_path(directory, filename)
+        if pdf_path is None:
+            failures.append({"source_pdf": filename, "error": "File not found in directory"})
+            continue
+        job = PdfJob(pdf_path, "unspecified", "unspecified")
+        try:
+            json_path = convert_pdf(job, directory)
+            data = json.loads(json_path.read_text(encoding="utf-8"))
+            json_path.unlink(missing_ok=True)
+            results.append({"source_pdf": job.pdf_path.name, "data": data})
+        except Exception as exc:
+            failures.append({"source_pdf": job.pdf_path.name, "error": str(exc)})
+
+    return {
+        "processed_pdfs": len(results),
+        "failed_pdfs": len(failures),
+        "results": results,
+        "failures": failures,
+    }
+
+
 def extract_questions(
     input_directory: Path,
     output_directory: Path,
