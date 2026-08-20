@@ -1,0 +1,52 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "Unit2_Assignment_Stacks_Queues.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "Define ADT Stack and mention its two primary operations along with their function. [2 Marks, L1]",
+      "options": [],
+      "answer": [],
+      "confidence_score": 0.2
+    },
+    {
+      "path": [],
+      "number": 2,
+      "page_number": 1,
+      "content": "Explain the difference between a Simple Queue and a Circular Queue, with examples. [3 Marks, L2]",
+      "options": [],
+      "answer": [],
+      "confidence_score": 0.2
+    },
+    {
+      "path": [],
+      "number": 3,
+      "page_number": 1,
+      "content": "Write an algorithm to convert an infix expression to postfix using a stack, and trace it for the expression (A + B) * (C − D). [5 Marks, L3]",
+      "options": [],
+      "answer": [],
+      "confidence_score": 0.2
+    },
+    {
+      "path": [],
+      "number": 4,
+      "page_number": 1,
+      "content": "For a queue implemented using a simple (linear) array, analyze and compare the time complexity and space utilization of enqueue/dequeue operations versus a circular queue implementation. Explain why they differ. [5 Marks, L4]",
+      "options": [],
+      "answer": [],
+      "confidence_score": 0.2
+    },
+    {
+      "path": [],
+      "number": 5,
+      "page_number": 1,
+      "content": "A print-job scheduler must always execute high-priority jobs before regular ones, regardless of arrival order. Evaluate whether a Simple Queue is a suitable choice for this, and justify a better alternative if not. [5 Marks, L5] --- End of Assignment ---",
+      "options": [],
+      "answer": [],
+      "confidence_score": 0.2
+    }
+  ]
+}
