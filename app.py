@@ -32,7 +32,7 @@ def create_app() -> Flask:
 
     @app.post("/assessment-extractor")
     def assessment_extractor():
-        """Extract full PDF layout and assessment-oriented structure to JSON."""
+        """Extract assessment questions to the compact question JSON shape."""
         uploads = [file for file in request.files.getlist("files") if file.filename]
         result = extract_assessments(assessment_input_directory, assessment_output_directory, uploads or None)
         if uploads and result["processed_pdfs"] == 0 and result["failed_pdfs"] == 0:

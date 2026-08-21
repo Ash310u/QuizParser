@@ -40,7 +40,7 @@ The server has no authentication and exposes three endpoints:
 curl -X POST http://localhost:5000/question-extractor \
   -F "files=@/path/to/paper.pdf"
 
-# Preserve a complete assessment PDF layout and extract sections/questions.
+# Convert assessment questions to the same compact shape as question extraction.
 curl -X POST http://localhost:5000/assessment-extractor \
   -F "files=@/path/to/assignment.pdf"
 
@@ -55,7 +55,7 @@ Every API result is stored under the shared `output/` directory:
 ```text
 output/
 ├── question_extractor/    MCQ JSON and image assets
-├── assessment_extractor/  assessment JSON and page/image assets
+├── assessment_extractor/  assessment JSON and cropped image assets
 └── summarizer/            one JSON response per summary request
 ```
 
@@ -65,12 +65,14 @@ Set `QUESTION_INPUT_DIR` or `QUESTION_OUTPUT_DIR` to use different directories.
 
 The assessment endpoint is separate from the MCQ converter. It writes to
 `output/assessment_extractor/` by default (override with `ASSESSMENT_INPUT_DIR` and
-`ASSESSMENT_OUTPUT_DIR`). Its JSON includes the full page layout—text blocks
-with spans and coordinates, embedded images, vector drawings, links,
-annotations, dimensions, and a rendered page image—plus a best-effort
-`assessment` view of the title, metadata, sections, topics, questions, marks,
-and learning levels. The layout data remains available when a source PDF uses
-a different assessment format.
+`ASSESSMENT_OUTPUT_DIR`). Its JSON uses the same `subject`, `semester`,
+`source_pdf`, and `questions` structure as question extraction. Assessment
+questions omit options and answers entirely; detected visual content is cropped
+into PNG assets and referenced through the question `path` field. Bounding
+boxes and other PDF layout data are not stored.
+
+Assessment extraction is text-first: whenever a question has selectable text,
+only that text is stored. Image assets are stored only for image-only questions.
 
 The summary endpoint writes its response to `output/summarizer/` and includes
 the saved `output_path` in its JSON response. Set `SUMMARY_OUTPUT_DIR` to
