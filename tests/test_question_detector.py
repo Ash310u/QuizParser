@@ -6,6 +6,7 @@ import unittest
 
 import pymupdf as fitz
 
+from utils.question_extractor.metadata_detector import extract_paper_code, extract_total_time_minutes
 from utils.question_extractor.pdf_reader import TextLine
 from utils.question_extractor.question_detector import split_question_lines
 
@@ -24,6 +25,19 @@ class QuestionDetectorTests(unittest.TestCase):
         ])
         self.assertEqual(len(groups), 1)
         self.assertEqual([item.text for item in groups[0][2]], ["Pick one", "a) One"])
+
+    def test_assignment_and_assessment_end_markers_are_not_grouped(self) -> None:
+        for marker in ("--- End of Assignment ---", "End of Assessment"):
+            with self.subTest(marker=marker):
+                groups = split_question_lines([line("Q5. Evaluate Binary Search.", 20), line(marker, 40)])
+                self.assertEqual(len(groups), 1)
+                self.assertEqual([item.text for item in groups[0][2]], ["Evaluate Binary Search."])
+
+    def test_extracts_total_assessment_time_in_minutes(self) -> None:
+        self.assertEqual(extract_total_time_minutes([line("Total Time: 1 Hour 30 Minutes", 20)]), 90.0)
+
+    def test_extracts_labelled_paper_code(self) -> None:
+        self.assertEqual(extract_paper_code([line("Paper Code: DS-MCQ-101", 20)]), "DS-MCQ-101")
 
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ EXPLICIT_QUESTION_START = re.compile(
 NUMBERED_QUESTION_START = re.compile(r"^\s*(?:\(\s*)?(\d{1,4})(?:\s*\)|\s*[.:-])\s*(.*)$")
 TERMINAL_DOCUMENT_MARKER = re.compile(
     r"^\s*(?:[-_=*#]\s*)*(?:end|the\s+end)\s+of\s+"
-    r"(?:the\s+)?(?:quiz|questions?|paper|test|exam|document)\b.*$",
+    r"(?:the\s+)?(?:assignment|assessment|quiz|questions?|paper|test|exam|document)\b.*$",
     re.IGNORECASE,
 )
 
