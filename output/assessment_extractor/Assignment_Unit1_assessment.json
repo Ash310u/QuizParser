@@ -1,0 +1,42 @@
+{
+  "subject": "unspecified",
+  "semester": "unspecified",
+  "source_pdf": "Assignment_Unit1.pdf",
+  "questions": [
+    {
+      "path": [],
+      "number": 1,
+      "page_number": 1,
+      "content": "Define an equivalence relation and give one example. [2 Marks, L1]",
+      "confidence_score": 1.0
+    },
+    {
+      "path": [],
+      "number": 2,
+      "page_number": 1,
+      "content": "Explain the difference between injective, surjective, and bijective functions, with examples. [3 Marks, L2]",
+      "confidence_score": 1.0
+    },
+    {
+      "path": [],
+      "number": 3,
+      "page_number": 1,
+      "content": "Using the Euclidean Algorithm, find gcd(252, 105) and show all steps. [5 Marks, L3]",
+      "confidence_score": 1.0
+    },
+    {
+      "path": [],
+      "number": 4,
+      "page_number": 1,
+      "content": "Analyze why the set of real numbers ℝ is uncountable while the set of rational numbers ℚ is countable, referring to Cantor's diagonal argument. [5 Marks, L4]",
+      "confidence_score": 1.0
+    },
+    {
+      "path": [],
+      "number": 5,
+      "page_number": 1,
+      "content": "A relation R is defined on the integers as aRb if a ≡ b (mod 5). Evaluate whether R is an equivalence relation, justifying your answer by verifying reflexivity, symmetry, and transitivity. [5 Marks, L5]",
+      "confidence_score": 1.0
+    }
+  ]
+}

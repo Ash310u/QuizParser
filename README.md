@@ -30,8 +30,9 @@ Run every endpoint from that same environment:
 .venv/bin/python app.py
 ```
 
-The first call to `/summarize` also downloads the existing local model. The
-other endpoints do not load that model until it is needed.
+The first call to `/summarize` downloads the summarization model. The first
+assessment containing a question without an explicit BT code downloads the
+Bloom taxonomy classification model.
 
 The server has no authentication and exposes three endpoints:
 
@@ -63,14 +64,20 @@ The question endpoint saves uploads in `input/`, writes JSON/assets to
 `output/question_extractor/`, and returns the generated JSON in its response.
 Set `QUESTION_INPUT_DIR` or `QUESTION_OUTPUT_DIR` to use different directories.
 
-The assessment endpoint is separate from the MCQ converter. It writes to
-`output/assessment_extractor/` by default (override with `ASSESSMENT_INPUT_DIR` and
-`ASSESSMENT_OUTPUT_DIR`). Its JSON includes the full page layout—text blocks
-with spans and coordinates, embedded images, vector drawings, links,
-annotations, dimensions, and a rendered page image—plus a best-effort
-`assessment` view of the title, metadata, sections, topics, questions, marks,
-and learning levels. The layout data remains available when a source PDF uses
-a different assessment format.
+The assessment endpoint writes to `output/assessment_extractor/` by default
+(override with `ASSESSMENT_INPUT_DIR` and `ASSESSMENT_OUTPUT_DIR`). It shares
+the question extractor's PDF/OCR/asset pipeline, so its JSON uses the same
+per-PDF `{subject, semester, source_pdf, questions: [...]}` shape as
+`/question-extractor`. Each question omits `options`/`answer` (assessment
+questions are typically free-response, not multiple-choice) and instead
+includes `marks` (parsed from a trailing `[N Marks]` annotation, defaulting to
+`1.0` when absent) and `bt_level`. Explicit `L1`-`L6` codes are mapped to their
+Bloom taxonomy names (`Remember` through `Create`). Questions without an
+explicit code are classified automatically from their question text.
+`/assessment-extractor-from-directory` returns the identical
+`{source_pdf, json_path, data}` shape per PDF, but does not keep its
+transient JSON file on disk (only the PNG assets remain, alongside the
+caller-supplied PDFs).
 
 The summary endpoint writes its response to `output/summarizer/` and includes
 the saved `output_path` in its JSON response. Set `SUMMARY_OUTPUT_DIR` to
@@ -111,7 +118,7 @@ input/
 └── practice_test.pdf
 ```
 
-Each file becomes `output/<pdf-name>.json` plus `output/<pdf-name>_assets/`. The `subject` and `semester` fields remain in the JSON schema with the value `"unspecified"`; the simple input folder provides no reliable metadata for them. Subfolders are intentionally ignored.
+Each file becomes `output/<pdf-name>.json` plus `output/<pdf-name>_assets/`. The `subject` and `semester` fields remain in the JSON schema with the value `"unspecified"`; the simple input folder provides no reliable metadata for them. Both extractors include `metadata.paper_code`, parsed from a label such as `Paper Code: DS-MCQ-101`; MCQ output additionally includes `metadata.total_time_minutes`, parsed from a labelled duration such as `Total Time: 1 Hour 30 Minutes`. These values are `null` when absent. Subfolders are intentionally ignored.
 
 Each question stores compact data rather than a mixed block array:
 
@@ -135,3 +142,17 @@ Each question also includes `confidence_score` between `0.0` and `1.0`. It is a 
 Option labels are detected when present (`A`, `B`, `i`, `ii`, `1`, `2`, etc.). For label-free source material, the converter also recognizes bullet lists, comma- or semicolon-separated rows, and clearly separated option lines. All detected or inferred labels are normalized to `A`, `B`, `C`, `D`, ... in the final JSON. A completely unlabelled image grid is likewise alphabetically labelled when its prompt explicitly asks the reader to choose an image, diagram, figure, symbol, shape, or option.
 
 The extractor uses PDF text coordinates first, then OCR only for scanned/unusable pages. Embedded images and substantial vector graphic regions are rendered to PNG and placed in a sibling `<paper>_assets/` folder. Extraction issues are logged without stopping the batch.
+
+The assessment extractor's question record swaps `options`/`answer` for `marks`/`bt_level`:
+
+```json
+{
+  "number": 2,
+  "page_number": 1,
+  "content": "Solve the following quadratic equation:",
+  "path": ["paper_assets/question_2_diagram_1.png"],
+  "marks": 3.0,
+  "bt_level": "Apply",
+  "confidence_score": 1.0
+}
+```

@@ -1,240 +1,237 @@
-"""Assessment PDF conversion implementation.
+"""Batch assessment PDF to JSON conversion.
 
-The layout record deliberately does not assume an assignment template: each page
-keeps its text spans, embedded images, vector drawings, links, and annotations.
-The ``assessment`` view is a best-effort convenience layer for common headings
-such as ``Unit 1`` and ``Q1``.
+Reuses the question extractor's coordinate-aware text/asset pipeline (PDF
+reading, OCR fallback, question-start detection, and asset cropping) since
+locating "Q<n>" questions and their diagrams is identical work. Assessment
+questions are typically free-response rather than multiple-choice, so this
+module produces one JSON record per question with its marks and a Bloom's
+Taxonomy cognitive level (bt_level) instead of options/answer. bt_level is
+read directly from the source PDF when it labels a question (e.g.
+"[2 Marks, L1]"); unlabelled questions fall back to the classifier.
 """
 
 from __future__ import annotations
 
 import json
+import logging
 import re
+from collections import defaultdict
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Iterable
 
-import pymupdf
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
+from utils.question_extractor.asset_extractor import AssetRegion, find_asset_regions
+from utils.question_extractor.content_builder import Section, build_section, render_and_assign_assets
+from utils.question_extractor.folder_scanner import PdfJob, output_directory, scan_pdfs
+from utils.question_extractor.ocr_processor import ocr_page
+from utils.question_extractor.pdf_reader import TextLine, extract_page, has_usable_text, open_pdf
+from utils.question_extractor.question_detector import split_question_lines
+from utils.question_extractor.metadata_detector import extract_paper_code
 
-SECTION_RE = re.compile(r"^(?:unit|section|part|module)\s*([\w.-]+)?\s*[:.-]?\s*(.*)$", re.IGNORECASE)
-QUESTION_RE = re.compile(r"^(?:question\s*)?q\s*(\d+)\s*[.:)\-]?\s*(.*)$", re.IGNORECASE)
-MARKS_RE = re.compile(r"\s*[\[(]\s*(\d+(?:\.\d+)?)\s*marks?\s*(?:[,;|]\s*([A-Za-z]\d+))?\s*[\])]\s*$", re.IGNORECASE)
+from .bt_classifier import classify_bt_level
+from .json_writer import write_paper
+from .marks_detector import extract_marks
+from .models import AssessmentPaper, AssessmentQuestion
+from utils.question_extractor.models import PaperMetadata
+from .validator import confidence_score, validate_question
 
-
-def _json_value(value: Any) -> Any:
-    """Convert PyMuPDF geometry and drawing values to JSON-safe values."""
-    if value is None or isinstance(value, (str, int, float, bool)):
-        return value
-    if isinstance(value, pymupdf.Rect):
-        return {"x0": value.x0, "y0": value.y0, "x1": value.x1, "y1": value.y1}
-    if isinstance(value, pymupdf.Point):
-        return {"x": value.x, "y": value.y}
-    if isinstance(value, (list, tuple)):
-        return [_json_value(item) for item in value]
-    if isinstance(value, dict):
-        return {str(key): _json_value(item) for key, item in value.items()}
-    return str(value)
+LOG = logging.getLogger("assessment_converter")
 
 
-def _span_record(span: dict[str, Any]) -> dict[str, Any]:
-    return {
-        "text": span.get("text", ""),
-        "bbox": _json_value(span.get("bbox")),
-        "font": span.get("font"),
-        "font_size": span.get("size"),
-        "flags": span.get("flags"),
-        "color": span.get("color"),
-        "origin": _json_value(span.get("origin")),
-    }
+def _question_text(question_lines: list[TextLine]) -> str:
+    """Return selectable assessment text without suppressing it for visuals."""
+    return re.sub(r"\s+", " ", " ".join(line.text for line in question_lines if line.text)).strip()
 
 
-def _page_text(page: pymupdf.Page) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    """Return simple reading lines plus full text block/span layout."""
-    blocks: list[dict[str, Any]] = []
-    lines: list[dict[str, Any]] = []
-    for block in page.get_text("dict", sort=True).get("blocks", []):
-        if block.get("type") != 0:
-            continue
-        line_records = []
-        for line in block.get("lines", []):
-            spans = [_span_record(span) for span in line.get("spans", [])]
-            text = "".join(span["text"] for span in spans).strip()
-            line_record = {"text": text, "bbox": _json_value(line.get("bbox")), "spans": spans}
-            line_records.append(line_record)
-            if text:
-                lines.append(line_record)
-        blocks.append({"type": "text", "bbox": _json_value(block.get("bbox")), "lines": line_records})
-    return lines, blocks
-
-
-def _save_images(page: pymupdf.Page, assets_dir: Path, asset_prefix: str) -> list[dict[str, Any]]:
-    records: list[dict[str, Any]] = []
-    seen_xrefs: set[int] = set()
-    for image_index, image in enumerate(page.get_images(full=True), start=1):
-        xref = image[0]
-        if xref in seen_xrefs:
-            continue
-        seen_xrefs.add(xref)
-        extracted = page.parent.extract_image(xref)
-        extension = extracted.get("ext", "png")
-        filename = f"{asset_prefix}_image_{image_index}.{extension}"
-        (assets_dir / filename).write_bytes(extracted["image"])
-        records.append(
-            {
-                "xref": xref,
-                "path": filename,
-                "width": extracted.get("width"),
-                "height": extracted.get("height"),
-                "colorspace": extracted.get("colorspace"),
-                "bits_per_component": extracted.get("bpc"),
-            }
+def _collect_lines_and_regions(
+    pdf_path: Path,
+) -> tuple[list[TextLine], list[AssetRegion], list[str], object, list[TextLine]]:
+    document = open_pdf(pdf_path)
+    lines: list[TextLine] = []
+    metadata_lines: list[TextLine] = []
+    regions: list[AssetRegion] = []
+    warnings: list[str] = []
+    for page_number, page in enumerate(document, start=1):
+        data = extract_page(page, page_number)
+        page_lines: list[TextLine]
+        if not has_usable_text(data):
+            try:
+                ocr_lines = ocr_page(page, page_number)
+            except RuntimeError as exc:
+                warnings.append(f"Page {page_number}: {exc}")
+                ocr_lines = []
+            if ocr_lines:
+                page_lines = ocr_lines
+                warnings.append(f"Page {page_number}: used OCR because digital text was not usable.")
+            else:
+                page_lines = data.lines
+        else:
+            page_lines = data.lines
+        metadata_lines.extend(page_lines)
+        lines.extend(
+            line for line in page_lines
+            if line.rect.y0 >= data.height * 0.04 and line.rect.y1 <= data.height * 0.95
         )
-    return records
+        # Decorative headers and footers frequently contain lines, rectangles,
+        # and logos that are not part of a question.
+        regions.extend(
+            region for region in find_asset_regions(page, page_number)
+            if region.rect.y1 > data.height * 0.12 and region.rect.y0 < data.height * 0.95
+        )
+    return lines, regions, warnings, document, metadata_lines
 
 
-def _parse_metadata(text: str) -> dict[str, str]:
-    metadata: dict[str, str] = {}
-    for part in re.split(r"\s*[|]\s*", text):
-        if ":" not in part:
-            continue
-        key, value = part.split(":", 1)
-        key, value = key.strip(), value.strip()
-        if key and value:
-            metadata[key.lower().replace(" ", "_")] = value
-    return metadata
-
-
-def _assessment_view(page_lines: list[tuple[int, dict[str, Any]]]) -> dict[str, Any]:
-    """Build a conservative section/question view without discarding raw layout."""
-    all_text = [line["text"] for _, line in page_lines if line["text"]]
-    title = all_text[0] if all_text else ""
-    metadata = _parse_metadata(all_text[1]) if len(all_text) > 1 else {}
-    sections: list[dict[str, Any]] = []
-    current: dict[str, Any] | None = None
-    active_question: dict[str, Any] | None = None
-
-    def ensure_section(page_number: int) -> dict[str, Any]:
-        nonlocal current
-        if current is None:
-            current = {"title": "Unsectioned content", "identifier": None, "page_number": page_number, "metadata": {}, "questions": []}
-            sections.append(current)
-        return current
-
-    # The document title and its conventional metadata line describe the whole
-    # assessment; they must not become an ``Unsectioned content`` section.
-    first_content_lines = 2 if metadata else 1
-    for line_index, (page_number, line) in enumerate(page_lines):
-        if line_index < first_content_lines:
-            continue
-        text = line["text"]
-        section_match = SECTION_RE.match(text)
-        if section_match and not QUESTION_RE.match(text):
-            current = {"title": (section_match.group(2) or text).strip(), "identifier": section_match.group(1), "page_number": page_number, "metadata": {}, "questions": []}
-            sections.append(current)
-            active_question = None
-            continue
-        section = ensure_section(page_number)
-        if text.lower().startswith(("topics:", "total marks:", "total time:")):
-            key, _, value = text.partition(":")
-            section["metadata"][key.lower().replace(" ", "_")] = value.strip()
-            continue
-        question_match = QUESTION_RE.match(text)
-        if question_match:
-            content = question_match.group(2).strip()
-            marks_match = MARKS_RE.search(content)
-            marks = float(marks_match.group(1)) if marks_match else None
-            level = marks_match.group(2) if marks_match else None
-            if marks_match:
-                content = content[: marks_match.start()].rstrip()
-            active_question = {
-                "number": int(question_match.group(1)),
-                "page_number": page_number,
-                "content": content,
-                "marks": marks,
-                "learning_level": level,
-                "bbox": line["bbox"],
-                "source_lines": [text],
-            }
-            section["questions"].append(active_question)
-        elif active_question is not None:
-            active_question["content"] = f"{active_question['content']} {text}".strip()
-            active_question["source_lines"].append(text)
-
-    return {"title": title, "metadata": metadata, "sections": sections}
-
-
-def convert_assessment(pdf_path: Path, output_directory: Path) -> Path:
-    """Extract one PDF to a standalone JSON file plus relative image assets."""
-    output_directory.mkdir(parents=True, exist_ok=True)
-    assets_dir = output_directory / f"{pdf_path.stem}_assessment_assets"
+def convert_assessment(job: PdfJob, output_root: Path) -> Path:
+    destination_dir = output_directory(job, output_root)
+    json_path = destination_dir / f"{job.pdf_path.stem}.json"
+    assets_dir = destination_dir / f"{job.pdf_path.stem}_assets"
+    assets_relative_dir = Path(f"{job.pdf_path.stem}_assets")
+    # Each PDF owns an asset directory, even if every question is text-only.
     assets_dir.mkdir(parents=True, exist_ok=True)
-    document = pymupdf.open(pdf_path)
-    document_metadata = {key: value for key, value in document.metadata.items() if value not in (None, "")}
-    table_of_contents = _json_value(document.get_toc(simple=False))
-    pages: list[dict[str, Any]] = []
-    all_lines: list[tuple[int, dict[str, Any]]] = []
+    for stale_asset in assets_dir.glob("*.png"):
+        stale_asset.unlink()
+    lines, all_regions, paper_warnings, document, metadata_lines = _collect_lines_and_regions(job.pdf_path)
     try:
-        for index, page in enumerate(document, start=1):
-            lines, text_blocks = _page_text(page)
-            all_lines.extend((index, line) for line in lines)
-            render_name = f"page_{index}.png"
-            page.get_pixmap(matrix=pymupdf.Matrix(1.5, 1.5), alpha=False).save(assets_dir / render_name)
-            drawings = [_json_value(drawing) for drawing in page.get_drawings()]
-            annotations = [_json_value(annotation.info) for annotation in (page.annots() or [])]
-            pages.append(
-                {
-                    "page_number": index,
-                    "width": page.rect.width,
-                    "height": page.rect.height,
-                    "rotation": page.rotation,
-                    "render_path": (assets_dir.name + "/" + render_name),
-                    "text_blocks": text_blocks,
-                    "images": [
-                        {**record, "path": (assets_dir.name + "/" + record["path"])}
-                        for record in _save_images(page, assets_dir, f"page_{index}")
-                    ],
-                    "drawings": drawings,
-                    "links": [_json_value(link) for link in page.get_links()],
-                    "annotations": annotations,
-                }
+        questions: list[AssessmentQuestion] = []
+        grouped = split_question_lines(lines)
+        regions_by_question: dict[int, list[AssetRegion]] = defaultdict(list)
+        for region in all_regions:
+            candidates: list[tuple[float, int]] = []
+            for index, (_, _, candidate_lines) in enumerate(grouped):
+                page_lines = [line for line in candidate_lines if line.page_number == region.page_number]
+                if not page_lines:
+                    continue
+                top = min(line.rect.y0 for line in page_lines)
+                bottom = max(line.rect.y1 for line in page_lines)
+                distance = 0.0 if top <= region.rect.y0 <= bottom else min(abs(region.rect.y0 - bottom), abs(top - region.rect.y1))
+                candidates.append((distance, index))
+            if candidates:
+                _, owner = min(candidates)
+                regions_by_question[owner].append(region)
+            else:
+                LOG.warning("%s: visual region on page %s could not be associated with a question", job.pdf_path, region.page_number)
+        for index, (number, page_number, question_lines) in enumerate(grouped):
+            content = _question_text(question_lines)
+            paths: list[str] = []
+            # Assessments are text-first. Only image-only questions need a
+            # crop; otherwise a false drawing region can suppress valid text.
+            if not content:
+                stem = Section("question", None, question_lines)
+                assignments = render_and_assign_assets(
+                    document,
+                    regions_by_question[index],
+                    [stem],
+                    assets_dir,
+                    assets_relative_dir,
+                    number,
+                )
+                _, paths = build_section(stem, assignments[id(stem)])
+            content, marks, explicit_level = extract_marks(content)
+            bt_level = explicit_level or classify_bt_level(content)
+            question = AssessmentQuestion(
+                number=number,
+                page_number=page_number,
+                content=content,
+                path=paths,
+                marks=marks,
+                bt_level=bt_level,
             )
+            validation_messages = validate_question(question, destination_dir)
+            question.confidence_score = confidence_score(
+                question,
+                validation_messages,
+                used_ocr=any("used OCR" in warning for warning in paper_warnings),
+            )
+            for warning in [*paper_warnings, *validation_messages]:
+                LOG.warning("%s, question %s: %s", job.pdf_path.name, number, warning)
+            questions.append(question)
+        if not grouped:
+            LOG.warning("%s: no question starts detected", job.pdf_path)
+        paper = AssessmentPaper(
+            subject=job.subject,
+            semester=job.semester,
+            source_pdf=job.pdf_path.name,
+            metadata=PaperMetadata(paper_code=extract_paper_code(metadata_lines)),
+            questions=questions,
+        )
+        write_paper(paper, json_path)
+        return json_path
     finally:
         document.close()
-    payload = {
-        "schema_version": "1.0",
-        "source_pdf": pdf_path.name,
-        "document_metadata": document_metadata,
-        "table_of_contents": table_of_contents,
-        "assessment": _assessment_view(all_lines),
-        "pages": pages,
-    }
-    json_path = output_directory / f"{pdf_path.stem}_assessment.json"
-    json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    return json_path
 
 
-def extract_assessments(input_directory: Path, output_directory: Path, uploaded_files: Iterable[FileStorage] | None = None) -> dict[str, Any]:
+def _resolve_pdf_path(directory: Path, filename: str) -> Path | None:
+    """Return the existing PDF at ``directory/filename``, or ``None`` if unsafe/missing."""
+    safe_name = secure_filename(filename or "")
+    if not safe_name or Path(safe_name).suffix.lower() != ".pdf":
+        return None
+    candidate = (directory / safe_name).resolve()
+    try:
+        candidate.relative_to(directory.resolve())
+    except ValueError:
+        return None
+    return candidate if candidate.is_file() else None
+
+
+def extract_assessments_from_directory(directory: Path, filenames: Iterable[str]) -> dict:
+    """Extract PDFs already saved under ``directory``; assets are saved alongside them,
+    but the generated JSON file itself is not kept on disk, only returned.
+
+    Each result carries the same ``source_pdf``/``json_path``/``data`` shape as
+    :func:`extract_assessments`, so callers get an identical response whether a
+    PDF was uploaded directly or already sat in a directory."""
+    results: list[dict] = []
+    failures: list[dict] = []
+    for filename in filenames:
+        pdf_path = _resolve_pdf_path(directory, filename)
+        if pdf_path is None:
+            failures.append({"source_pdf": filename, "error": "File not found in directory"})
+            continue
+        job = PdfJob(pdf_path, "unspecified", "unspecified")
+        try:
+            json_path = convert_assessment(job, directory)
+            data = json.loads(json_path.read_text(encoding="utf-8"))
+            relative_json_path = json_path.relative_to(directory).as_posix()
+            json_path.unlink(missing_ok=True)
+            results.append({"source_pdf": job.pdf_path.name, "json_path": relative_json_path, "data": data})
+        except Exception as exc:
+            failures.append({"source_pdf": job.pdf_path.name, "error": str(exc)})
+    return {"processed_pdfs": len(results), "failed_pdfs": len(failures), "results": results, "failures": failures}
+
+
+def extract_assessments(input_directory: Path, output_directory: Path, uploaded_files: Iterable[FileStorage] | None = None) -> dict:
     """Save optional uploads and extract all available assessment PDFs."""
     input_directory.mkdir(parents=True, exist_ok=True)
     output_directory.mkdir(parents=True, exist_ok=True)
-    paths: list[Path] = []
-    if uploaded_files:
-        for upload in uploaded_files:
-            filename = secure_filename(upload.filename or "")
-            if filename and Path(filename).suffix.lower() == ".pdf":
-                path = input_directory / filename
-                upload.save(path)
-                paths.append(path)
-    else:
-        paths = sorted(path for path in input_directory.iterdir() if path.is_file() and path.suffix.lower() == ".pdf")
 
-    results, failures = [], []
-    for path in paths:
+    jobs: list[PdfJob]
+    if uploaded_files:
+        jobs = []
+        for uploaded_file in uploaded_files:
+            filename = secure_filename(uploaded_file.filename or "")
+            if not filename or Path(filename).suffix.lower() != ".pdf":
+                continue
+            destination = input_directory / filename
+            uploaded_file.save(destination)
+            jobs.append(PdfJob(destination, "unspecified", "unspecified"))
+    else:
+        jobs = scan_pdfs(input_directory)
+
+    results: list[dict] = []
+    failures: list[dict] = []
+    for job in jobs:
         try:
-            json_path = convert_assessment(path, output_directory)
-            results.append({"source_pdf": path.name, "json_path": json_path.name, "data": json.loads(json_path.read_text(encoding="utf-8"))})
+            json_path = convert_assessment(job, output_directory)
+            results.append(
+                {
+                    "source_pdf": job.pdf_path.name,
+                    "json_path": json_path.relative_to(output_directory).as_posix(),
+                    "data": json.loads(json_path.read_text(encoding="utf-8")),
+                }
+            )
         except Exception as exc:
-            failures.append({"source_pdf": path.name, "error": str(exc)})
+            failures.append({"source_pdf": job.pdf_path.name, "error": str(exc)})
+
     return {"processed_pdfs": len(results), "failed_pdfs": len(failures), "results": results, "failures": failures}

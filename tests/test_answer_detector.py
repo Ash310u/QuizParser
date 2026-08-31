@@ -30,6 +30,15 @@ class AnswerDetectorTests(unittest.TestCase):
         self.assertEqual([item.text for item in content], ["4) Four"])
         self.assertIsNone(answer)
 
+    def test_removes_text_after_answer_key(self) -> None:
+        content, answer = split_answer_lines([
+            line("4) Four", 20),
+            line("Correct Answer: A", 40),
+            line("--- End of Quiz ---", 60),
+        ])
+        self.assertEqual([item.text for item in content], ["4) Four"])
+        self.assertEqual(answer, "A")
+
     def test_resolves_single_and_multiple_labels(self) -> None:
         options = [Option(label=label, content=value) for label, value in [("A", "One"), ("B", "Two"), ("C", "Three")]]
         self.assertEqual(resolve_answer_labels("B. Two", options), ["B"])

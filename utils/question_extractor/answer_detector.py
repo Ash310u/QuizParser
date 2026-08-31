@@ -19,15 +19,19 @@ def split_answer_lines(lines: list[TextLine]) -> tuple[list[TextLine], str | Non
     """Remove answer-key lines from question content and return their value."""
     content_lines: list[TextLine] = []
     answers: list[str] = []
+    answer_seen = False
     for line in lines:
+        # An answer key closes the question. Text that follows it is commonly
+        # an end note, footer, or explanatory material outside the MCQ set.
         match = ANSWER_LINE.match(line.text)
         if match:
             answers.append(match.group(1))
+            answer_seen = True
         elif ANSWER_NOTE.match(line.text):
             # Informational page text such as "Answers are shown after the
             # options" is neither question content nor an answer key value.
             continue
-        else:
+        elif not answer_seen:
             content_lines.append(line)
     return content_lines, " ".join(answers) if answers else None
 

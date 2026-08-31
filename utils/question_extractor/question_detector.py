@@ -11,6 +11,16 @@ EXPLICIT_QUESTION_START = re.compile(
     re.IGNORECASE,
 )
 NUMBERED_QUESTION_START = re.compile(r"^\s*(?:\(\s*)?(\d{1,4})(?:\s*\)|\s*[.:-])\s*(.*)$")
+TERMINAL_DOCUMENT_MARKER = re.compile(
+    r"^\s*(?:[-_=*#]\s*)*(?:end|the\s+end)\s+of\s+"
+    r"(?:the\s+)?(?:assignment|assessment|quiz|questions?|paper|test|exam|document)\b.*$",
+    re.IGNORECASE,
+)
+
+
+def is_terminal_document_line(text: str) -> bool:
+    """Recognize common document-end labels that are not question content."""
+    return TERMINAL_DOCUMENT_MARKER.match(text) is not None
 
 
 def parse_question_start(text: str) -> tuple[int, str, bool] | None:
@@ -32,6 +42,9 @@ def split_question_lines(lines: list[TextLine]) -> list[tuple[int, int, list[Tex
     current_question_x: float | None = None
     current_lines: list[TextLine] = []
     for line in lines:
+        if current_number is not None and is_terminal_document_line(line.text):
+            groups.append((current_number, current_page or line.page_number, current_lines))
+            return groups
         start = parse_question_start(line.text)
         # Bare numeric labels such as `1)` can be answer options. Once a
         # question is open, promote those only when they continue numbering.

@@ -41,8 +41,16 @@ class Question(PathContainer):
     confidence_score: float = Field(default=1.0, ge=0.0, le=1.0)
 
 
+class PaperMetadata(BaseModel):
+    """Assessment-level details discovered in the source PDF."""
+
+    paper_code: str | None = Field(default=None, max_length=100)
+    total_time_minutes: float | None = Field(default=None, ge=0.0)
+
+
 class Paper(BaseModel):
     subject: str
     semester: str
     source_pdf: str
+    metadata: PaperMetadata = Field(default_factory=PaperMetadata)
     questions: list[Question] = Field(default_factory=list)
